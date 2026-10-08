@@ -931,47 +931,97 @@ ul {
   background: #fef2f2;
 }
 
-/* Çerez Barı */
+/* ÇEREZ BİLDİRİMİ (MODERN & OKUNAKLI ŞEFFAF BUTONLU) */
 .cookie-banner {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(15, 23, 42, 0.96);
-  backdrop-filter: blur(8px);
-  color: #fff;
-  padding: 14px 20px;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92%;
+  max-width: 900px;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: #f8fafc;
+  padding: 14px 22px;
   z-index: 9999;
-  border-top: 2px solid var(--secondary);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   display: none;
+  animation: slideUpCookie 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpCookie {
+  from { opacity: 0; transform: translateX(-50%) translateY(30px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
 
 .cookie-content {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
 .cookie-text {
-  font-size: 0.84rem;
+  font-size: 0.85rem;
   line-height: 1.5;
+  color: #cbd5e1;
   flex: 1;
+  min-width: 260px;
 }
 
 .cookie-text a {
   color: #38bdf8;
   text-decoration: underline;
+  font-weight: 500;
   cursor: pointer;
 }
 
 .cookie-actions {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.cookie-actions .btn-cookie-reject {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #f1f5f9 !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  padding: 7px 16px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.cookie-actions .btn-cookie-reject:hover {
+  background: rgba(255, 255, 255, 0.16) !important;
+  border-color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.cookie-actions .btn-cookie-accept {
+  background: linear-gradient(135deg, #d9230f, #c01a07) !important;
+  color: #ffffff !important;
+  border: none !important;
+  padding: 7px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(217, 35, 15, 0.35);
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.cookie-actions .btn-cookie-accept:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(217, 35, 15, 0.45);
 }
 
 /* Modallar */
