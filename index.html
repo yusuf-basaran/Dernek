@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- SEO Meta Etiketleri -->
   <title>KKTC Yardımlaşma ve Dayanışma Derneği | Resmî Web Portalı</title>
   <meta name="description" content="KKTC İçişleri Bakanlığı onaylı resmî dernek portali. Kuzey Kıbrıs genelinde şeffaf yardım faaliyetleri, online bağış, üyelik başvurusu ve yıllık faaliyet raporları.">
   <meta name="keywords" content="KKTC dernek, Kıbrıs sivil toplum kuruluşu, Lefkoşa yardım derneği, KKTC online bağış, Kuzey Kıbrıs dayanışma, Fasıl 112">
@@ -12,13 +10,11 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://dernek.org.ct/">
 
-  <!-- Coğrafi Konum -->
   <meta name="geo.region" content="CY">
   <meta name="geo.placename" content="Lefkoşa, Gazimağusa, Girne, KKTC">
   <meta name="geo.position" content="35.1856;33.3823">
   <meta name="ICBM" content="35.1856, 33.3823">
 
-  <!-- Open Graph -->
   <meta property="og:type" content="non_profit">
   <meta property="og:site_name" content="KKTC Yardımlaşma ve Dayanışma Derneği">
   <meta property="og:title" content="KKTC Yardımlaşma ve Dayanışma Derneği">
@@ -27,7 +23,6 @@
   <meta property="og:image" content="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1200">
   <meta property="og:locale" content="tr_TR">
 
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="KKTC Yardımlaşma ve Dayanışma Derneği">
   <meta name="twitter:description" content="Kuzey Kıbrıs'ta şeffaf ve hesap verebilir sivil toplum dayanışması.">
@@ -35,7 +30,6 @@
 
   <meta name="theme-color" content="#002d59">
 
-  <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -63,19 +57,16 @@
   }
   </script>
 
-  <!-- Önbellek sorununu önlemek için versiyon eklendi -->
-  <link rel="stylesheet" href="css/style.css?v=2.1">
+  <link rel="stylesheet" href="css/style.css?v=3.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- Okuma İlerleme Çubuğu -->
   <div class="scroll-progress-bar" id="scroll-progress"></div>
 
-  <!-- Modern Floating Header -->
+  <!-- Responsive Header -->
   <header class="header">
     <div class="nav-container">
-      <!-- Sol: Logo & İsim -->
       <a href="index.html" class="logo-area">
         <div class="logo-symbol"><i class="fa-solid fa-hands-holding-child"></i></div>
         <div class="logo-text">
@@ -84,24 +75,25 @@
         </div>
       </a>
 
-      <!-- Orta: Kapsül Menü Linkleri -->
+      <!-- Masaüstü Navigasyon -->
       <nav class="nav-links-center">
         <a href="#about">Misyon & Vizyon</a>
+        <a href="yonetim.html">Yönetim Kurulu</a>
         <a href="#reports">Faaliyet Raporları</a>
         <a href="#news">Haberler</a>
         <a href="#accounts">Banka Hesapları</a>
         <a href="#contact">İletişim</a>
       </nav>
 
-      <!-- Sağ: Kompakt Eylem Butonları -->
+      <!-- Sağ Eylem Butonları -->
       <div class="nav-actions">
         <a href="bagis.html" class="btn-nav-donate">
-          <i class="fa-solid fa-heart" style="font-size: 0.75rem;"></i> Bağış Yap
+          <i class="fa-solid fa-heart"></i> <span>Bağış</span>
         </a>
 
         <div class="user-menu-wrap" id="user-menu-wrap">
           <a href="login.html" class="btn-nav-login" id="auth-nav-btn">
-            <i class="fa-regular fa-user"></i> Giriş / Panel
+            <i class="fa-regular fa-user"></i> <span>Giriş</span>
           </a>
           <div class="user-dropdown" id="user-dropdown">
             <a href="#" id="dropdown-panel-link"><i class="fa-solid fa-gauge"></i> Yönetim Paneli</a>
@@ -111,7 +103,21 @@
             </button>
           </div>
         </div>
+
+        <button class="mobile-menu-btn" id="mobile-toggle-btn" aria-label="Menü">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
+    </div>
+
+    <!-- Mobil Çekmece Menü -->
+    <div class="mobile-nav-drawer" id="mobile-nav-drawer">
+      <a href="#about"><i class="fa-solid fa-bullseye"></i> Misyon & Vizyon</a>
+      <a href="yonetim.html"><i class="fa-solid fa-users"></i> Yönetim Kurulu</a>
+      <a href="#reports"><i class="fa-solid fa-file-invoice"></i> Faaliyet Raporları</a>
+      <a href="#news"><i class="fa-solid fa-newspaper"></i> Haberler</a>
+      <a href="#accounts"><i class="fa-solid fa-building-columns"></i> Banka Hesapları</a>
+      <a href="#contact"><i class="fa-solid fa-envelope"></i> İletişim</a>
     </div>
   </header>
 
@@ -196,7 +202,7 @@
     </div>
   </section>
 
-  <!-- Medya Galerisi (Kayan Slider) -->
+  <!-- Medya Galerisi -->
   <section class="section reveal" id="gallery" style="background: #fff;">
     <div class="container">
       <div class="section-title">
@@ -222,7 +228,7 @@
     </div>
   </section>
 
-  <!-- Banka Hesapları (IBAN) -->
+  <!-- Banka Hesapları -->
   <section class="section reveal" id="accounts">
     <div class="container">
       <div class="section-title">
@@ -238,17 +244,21 @@
     </div>
   </section>
 
-  <!-- Sponsorlar -->
-  <section class="section reveal" id="sponsors" style="background: #fff;">
+  <!-- Destekçilerimiz & Paydaşlarımız (Kayan Sonsuz Bant) -->
+  <section class="section reveal" id="sponsors" style="background: #fff; padding: 45px 0;">
     <div class="container">
-      <div class="section-title">
+      <div class="section-title" style="margin-bottom: 20px;">
         <h3>Destekçilerimiz & Paydaşlarımız</h3>
       </div>
-      <div style="display:flex; justify-content:center; align-items:center; gap:35px; flex-wrap:wrap;" id="sponsors-container"></div>
+      <div class="marquee-container">
+        <div class="marquee-track" id="sponsors-marquee-track">
+          <!-- Dinamik sponsor kartları -->
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- İletişim Formu -->
+  <!-- İletişim -->
   <section class="section reveal" id="contact">
     <div class="container">
       <div class="section-title">
@@ -312,23 +322,20 @@
     </div>
   </section>
 
-  <!-- Sabit Kompakt Aksiyon Barı -->
+  <!-- Sabit Butonlar -->
   <div class="sticky-action-bar">
     <a href="bagis.html" class="btn btn-secondary"><i class="fa-solid fa-heart"></i> Bağış Yap</a>
     <a href="uyelik.html" class="btn btn-outline" style="color:#fff; background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.25);"><i class="fa-solid fa-user-plus"></i> Üye Ol</a>
   </div>
 
-  <!-- WhatsApp Float Butonu -->
   <a href="#" id="whatsapp-link" class="whatsapp-float" target="_blank" title="WhatsApp Destek Hattı">
     <i class="fa-brands fa-whatsapp"></i>
   </a>
 
-  <!-- Yukarı Çık Butonu -->
   <button class="back-to-top" id="back-to-top" title="Yukarı Çık">
     <i class="fa-solid fa-arrow-up"></i>
   </button>
 
-  <!-- Alt Ortada Çıkan Toast Bildirimi -->
   <div class="toast-notice" id="toast-notice">
     <i class="fa-solid fa-circle-check"></i>
     <span id="toast-text">IBAN panoya kopyalandı!</span>
@@ -346,6 +353,7 @@
         <div>
           <h4>Hızlı Bağlantılar</h4>
           <ul style="margin-top: 8px;">
+            <li><a href="yonetim.html">Yönetim Kurulu</a></li>
             <li><a href="uyelik.html">Üyelik Başvurusu</a></li>
             <li><a href="bagis.html">Online Bağış</a></li>
             <li><a href="login.html">Üye / Yönetici Girişi</a></li>
@@ -364,37 +372,26 @@
 
     initCookieBanner();
 
-    // 1. Toast Bildirim Fonksiyonu
+    // Mobil Menü Aç/Kapat
+    const mobileBtn = document.getElementById('mobile-toggle-btn');
+    const mobileDrawer = document.getElementById('mobile-nav-drawer');
+    if (mobileBtn && mobileDrawer) {
+      mobileBtn.addEventListener('click', () => {
+        mobileDrawer.classList.toggle('open');
+      });
+      mobileDrawer.querySelectorAll('a').forEach(l => {
+        l.addEventListener('click', () => mobileDrawer.classList.remove('open'));
+      });
+    }
+
     function showToast(message) {
       const toast = document.getElementById('toast-notice');
       const text = document.getElementById('toast-text');
       text.innerText = message;
       toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2600);
+      setTimeout(() => toast.classList.remove('show'), 2600);
     }
 
-    // 2. Buton Ripple (Tıklama Dalga) Efekti
-    function setupRipple() {
-      document.querySelectorAll('.btn, .btn-nav-donate, .btn-nav-login').forEach(button => {
-        button.addEventListener('click', function (e) {
-          const circle = document.createElement('span');
-          const diameter = Math.max(button.clientWidth, button.clientHeight);
-          const radius = diameter / 2;
-          const rect = button.getBoundingClientRect();
-          circle.style.width = circle.style.height = `${diameter}px`;
-          circle.style.left = `${e.clientX - rect.left - radius}px`;
-          circle.style.top = `${e.clientY - rect.top - radius}px`;
-          circle.classList.add('ripple');
-          const existing = button.querySelector('.ripple');
-          if (existing) existing.remove();
-          button.appendChild(circle);
-        });
-      });
-    }
-
-    // 3. Scroll Progress & Back to Top
     window.addEventListener('scroll', () => {
       const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
       const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -402,34 +399,26 @@
       document.getElementById('scroll-progress').style.width = scrolled + '%';
 
       const backToTop = document.getElementById('back-to-top');
-      if (winScroll > 300) {
-        backToTop.classList.add('show');
-      } else {
-        backToTop.classList.remove('show');
-      }
+      if (winScroll > 300) backToTop.classList.add('show');
+      else backToTop.classList.remove('show');
     });
 
     document.getElementById('back-to-top').addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // 4. Scroll Reveal
     function setupScrollReveal() {
       const reveals = document.querySelectorAll('.reveal');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-          }
+          if (entry.isIntersecting) entry.target.classList.add('active');
         });
       }, { threshold: 0.1 });
       reveals.forEach(el => observer.observe(el));
     }
 
-    // 5. Sayaç Animasyonu (CountUp)
     function animateCounters() {
-      const counters = document.querySelectorAll('.count-number');
-      counters.forEach(counter => {
+      document.querySelectorAll('.count-number').forEach(counter => {
         const target = +counter.getAttribute('data-target');
         const duration = 1500;
         const step = target / (duration / 25);
@@ -452,10 +441,9 @@
     });
 
     async function loadIndexData() {
-      setupRipple();
       setupScrollReveal();
 
-      // Oturum Kontrolü & Akıllı Kullanıcı Menüsü
+      // Oturum Kontrolü
       const auth = await getCurrentUserProfile();
       const authBtn = document.getElementById('auth-nav-btn');
       const dropdown = document.getElementById('user-dropdown');
@@ -474,7 +462,7 @@
         authBtn.removeAttribute('href');
         authBtn.innerHTML = `
           <i class="fa-solid fa-circle-user" style="color:var(--primary); font-size:1rem;"></i> 
-          <span>${displayName} (${roleTitle})</span> 
+          <span>${displayName}</span> 
           <i class="fa-solid fa-chevron-down" style="font-size:0.7rem; opacity:0.7;"></i>
         `;
 
@@ -486,10 +474,7 @@
           dropdown.classList.toggle('show');
         });
 
-        document.addEventListener('click', () => {
-          dropdown.classList.remove('show');
-        });
-
+        document.addEventListener('click', () => dropdown.classList.remove('show'));
         logoutBtn.addEventListener('click', async () => {
           await supabase.auth.signOut();
           window.location.reload();
@@ -511,28 +496,24 @@
         document.getElementById('contact-whatsapp').innerText = settings.whatsapp;
         
         const cleanWa = settings.whatsapp.replace(/[^0-9]/g, '');
-        document.getElementById('whatsapp-link').href = `https://wa.me/${cleanWa}?text=Merhaba,%20dernek%20faaliyetleri%20hakkında%20bilgi%20almak%20istiyorum.`;
+        document.getElementById('whatsapp-link').href = `https://wa.me/${cleanWa}?text=Merhaba`;
 
         if (settings.charter_pdf_url) {
           document.getElementById('charter-download-link').href = settings.charter_pdf_url;
         }
 
-        // Sayaçlar (CountUp Entegrasyonu)
         const countersContainer = document.getElementById('impact-counters-container');
         countersContainer.innerHTML = '';
         (settings.impact_counters || []).forEach(c => {
           countersContainer.innerHTML += `
             <div class="stat-card">
-              <div class="stat-number">
-                <span class="count-number" data-target="${c.value}">0</span>${c.suffix || ''}
-              </div>
+              <div class="stat-number"><span class="count-number" data-target="${c.value}">0</span>${c.suffix || ''}</div>
               <div class="stat-label">${c.label}</div>
             </div>
           `;
         });
         animateCounters();
 
-        // IBAN Blokları (Toast Bildirimli Kopyalama)
         const ibansContainer = document.getElementById('ibans-container');
         ibansContainer.innerHTML = '';
         (settings.ibans || []).forEach(i => {
@@ -551,17 +532,14 @@
           `;
         });
 
-        // Kopyalama Olayları (Alert kaldırıldı, Toast eklendi)
         document.querySelectorAll('.btn-copy').forEach(btn => {
           btn.addEventListener('click', async () => {
             const iban = btn.getAttribute('data-iban');
             const curr = btn.getAttribute('data-currency');
             await navigator.clipboard.writeText(iban);
-            
             btn.classList.add('copied');
             btn.innerHTML = `<i class="fa-solid fa-check"></i> Kopyalandı!`;
             showToast(`${curr} IBAN panoya kopyalandı!`);
-
             setTimeout(() => {
               btn.classList.remove('copied');
               btn.innerHTML = `<i class="fa-solid fa-copy"></i> IBAN Kopyala`;
@@ -570,7 +548,7 @@
         });
       }
 
-      // Faaliyet Raporları
+      // Raporlar
       const { data: reports } = await supabase.from('annual_reports').select('*').order('year', { ascending: false });
       const reportsContainer = document.getElementById('reports-grid');
       reportsContainer.innerHTML = '';
@@ -604,68 +582,42 @@
         `;
       });
 
-      // Medya Galerisi (Kayan Slider)
-      const { data: gallery } = await supabase
-        .from('media_gallery')
-        .select('*')
-        .order('created_at', { ascending: false });
-
+      // Galeri
+      const { data: gallery } = await supabase.from('media_gallery').select('*').order('created_at', { ascending: false });
       const track = document.getElementById('gallery-track');
       track.innerHTML = '';
-
-      if (!gallery || gallery.length === 0) {
-        track.innerHTML = '<p style="text-align:center; width:100%; color:var(--text-muted);">Henüz galeri görseli eklenmemiştir.</p>';
-      } else {
-        gallery.forEach(g => {
-          track.innerHTML += `
-            <div class="gallery-item">
-              <img src="${g.image_url}" alt="${g.title}" loading="lazy">
-              <div class="gallery-item-title">${g.title}</div>
-            </div>
-          `;
-        });
-
-        const scrollAmount = 320;
-        document.getElementById('gallery-prev').addEventListener('click', () => {
-          track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        });
-        document.getElementById('gallery-next').addEventListener('click', () => {
-          track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        });
-
-        let autoScrollInterval = setInterval(() => {
-          if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
-            track.scrollTo({ left: 0, behavior: 'smooth' });
-          } else {
-            track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-          }
-        }, 3500);
-
-        track.addEventListener('mouseenter', () => clearInterval(autoScrollInterval));
-        track.addEventListener('mouseleave', () => {
-          autoScrollInterval = setInterval(() => {
-            if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
-              track.scrollTo({ left: 0, behavior: 'smooth' });
-            } else {
-              track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-            }
-          }, 3500);
-        });
-      }
-
-      // Sponsorlar
-      const { data: sponsors } = await supabase.from('sponsors_partners').select('*').order('sort_order');
-      const sponsorsContainer = document.getElementById('sponsors-container');
-      sponsorsContainer.innerHTML = '';
-      (sponsors || []).forEach(s => {
-        sponsorsContainer.innerHTML += `
-          <a href="${s.website_url || '#'}" target="_blank" title="${s.name}">
-            <img src="${s.logo_url}" alt="${s.name}" style="max-height:44px; opacity:0.8; transition:var(--transition); filter:grayscale(100%);">
-          </a>
+      (gallery || []).forEach(g => {
+        track.innerHTML += `
+          <div class="gallery-item">
+            <img src="${g.image_url}" alt="${g.title}" loading="lazy">
+            <div class="gallery-item-title">${g.title}</div>
+          </div>
         `;
       });
 
-      setupRipple();
+      const scrollAmount = 320;
+      document.getElementById('gallery-prev').addEventListener('click', () => track.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
+      document.getElementById('gallery-next').addEventListener('click', () => track.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+
+      // Sponsorlar (Kayan Sonsuz Marquee Bandı)
+      const { data: sponsors } = await supabase.from('sponsors_partners').select('*').order('sort_order', { ascending: true });
+      const marqueeTrack = document.getElementById('sponsors-marquee-track');
+      marqueeTrack.innerHTML = '';
+
+      if (sponsors && sponsors.length > 0) {
+        // Kesintisiz döngü için 2 kez basılır
+        const renderList = [...sponsors, ...sponsors];
+        renderList.forEach(s => {
+          marqueeTrack.innerHTML += `
+            <div class="sponsor-card">
+              <img src="${s.logo_url}" alt="${s.name}">
+              <span>${s.name}</span>
+            </div>
+          `;
+        });
+      } else {
+        marqueeTrack.innerHTML = '<span style="color:var(--text-muted); font-size:0.9rem;">Destekçi kuruluşlar yakında eklenecektir.</span>';
+      }
     }
 
     document.getElementById('contact-form').addEventListener('submit', async (e) => {
@@ -687,15 +639,8 @@
       };
 
       const { error } = await supabase.from('contact_messages').insert([payload]);
-      if (error) {
-        showToast('Mesaj iletilemedi: ' + error.message);
-      } else {
-        await supabase.from('consent_logs').insert([{
-          identifier: email,
-          consent_type: 'contact_privacy',
-          is_accepted: true,
-          user_agent: navigator.userAgent
-        }]);
+      if (error) showToast('Hata: ' + error.message);
+      else {
         showToast('Mesajınız dernek yönetimimize iletildi!');
         e.target.reset();
       }
