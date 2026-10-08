@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yönetim Konsolu - KKTC Dayanışma Derneği</title>
   <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="css/style.css?v=3.0">
+  <link rel="stylesheet" href="css/style.css?v=3.2">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body style="background: #f1f5f9;">
@@ -25,17 +25,27 @@
       </div>
     </div>
 
-    <!-- Üst Sekmeler -->
-    <nav class="admin-top-nav">
-      <button class="active" data-tab="tab-corporate"><i class="fa-solid fa-building-columns"></i> Kurumsal Ayarlar</button>
-      <button data-tab="tab-board"><i class="fa-solid fa-user-tie"></i> Yönetim Kurulu</button>
-      <button data-tab="tab-sponsors"><i class="fa-solid fa-handshake"></i> Destekçiler / Sponsorlar</button>
-      <button data-tab="tab-news"><i class="fa-solid fa-newspaper"></i> Haber & Duyurular</button>
-      <button data-tab="tab-reports"><i class="fa-solid fa-file-invoice"></i> Faaliyet Raporları</button>
-      <button data-tab="tab-storage"><i class="fa-solid fa-folder-open"></i> Dosya & Galeri</button>
-      <button data-tab="tab-members"><i class="fa-solid fa-users"></i> Üye Yönetimi</button>
-      <button data-tab="tab-finance"><i class="fa-solid fa-money-bill-transfer"></i> Aidat & Bağışlar</button>
-    </nav>
+    <!-- Kaydırma Tuşlu Üst Sekmeler Kapsayıcısı -->
+    <div class="admin-nav-wrapper">
+      <button class="nav-scroll-btn nav-scroll-left" id="nav-scroll-left" aria-label="Sola Kaydır">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+
+      <nav class="admin-top-nav" id="admin-top-nav">
+        <button class="active" data-tab="tab-corporate"><i class="fa-solid fa-building-columns"></i> Kurumsal Ayarlar</button>
+        <button data-tab="tab-board"><i class="fa-solid fa-user-tie"></i> Yönetim Kurulu</button>
+        <button data-tab="tab-sponsors"><i class="fa-solid fa-handshake"></i> Destekçiler / Sponsorlar</button>
+        <button data-tab="tab-news"><i class="fa-solid fa-newspaper"></i> Haber & Duyurular</button>
+        <button data-tab="tab-reports"><i class="fa-solid fa-file-invoice"></i> Faaliyet Raporları</button>
+        <button data-tab="tab-storage"><i class="fa-solid fa-folder-open"></i> Dosya & Galeri</button>
+        <button data-tab="tab-members"><i class="fa-solid fa-users"></i> Üye Yönetimi</button>
+        <button data-tab="tab-finance"><i class="fa-solid fa-money-bill-transfer"></i> Aidat & Bağışlar</button>
+      </nav>
+
+      <button class="nav-scroll-btn nav-scroll-right" id="nav-scroll-right" aria-label="Sağa Kaydır">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
   </header>
 
   <main class="admin-container">
@@ -98,7 +108,7 @@
       </div>
     </section>
 
-    <!-- 2. Yönetim Kurulu Yönetimi (YENİ SEKME) -->
+    <!-- 2. Yönetim Kurulu -->
     <section id="tab-board" class="tab-pane" style="display:none;">
       <div class="panel-card">
         <div class="panel-card-header">
@@ -163,7 +173,7 @@
       </div>
     </section>
 
-    <!-- 3. Destekçiler / Sponsorlar (YENİ SEKME) -->
+    <!-- 3. Destekçiler / Sponsorlar -->
     <section id="tab-sponsors" class="tab-pane" style="display:none;">
       <div class="panel-card">
         <div class="panel-card-header">
