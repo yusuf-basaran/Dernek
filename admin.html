@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yönetim Konsolu - KKTC Dayanışma Derneği</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-area">
+        <div class="logo-symbol" style="background:var(--primary);"><i class="fa-solid fa-lock"></i></div>
+        <div class="logo-text">
+          <h1>Dernek Yönetim Konsolu</h1>
+          <span id="admin-user-title">Yönetici Paneli</span>
+        </div>
+      </a>
+      <div style="display:flex; gap:10px;">
+        <a href="index.html" class="btn btn-outline btn-sm">Siteye Dön</a>
+        <button class="btn btn-secondary btn-sm" id="admin-logout-btn"><i class="fa-solid fa-power-off"></i> Çıkış</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-menu">
+        <button class="active" data-tab="tab-corporate"><i class="fa-solid fa-building-columns"></i> Kurumsal Ayarlar</button>
+        <button data-tab="tab-storage"><i class="fa-solid fa-folder-open"></i> Dosya & Storage</button>
+        <button data-tab="tab-members"><i class="fa-solid fa-users"></i> Üye Yönetimi</button>
+        <button data-tab="tab-finance"><i class="fa-solid fa-money-bill-transfer"></i> Aidat & Bağışlar</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <!-- Kurumsal Ayarlar -->
+      <section id="tab-corporate" class="tab-pane">
+        <div class="panel-card">
+          <h3 style="color:var(--primary); margin-bottom:20px;">KKTC Resmî Kütük ve Kurumsal Bilgiler</h3>
+          <form id="corporate-settings-form">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+              <div class="form-group">
+                <label>Dernek Resmî Adı</label>
+                <input type="text" class="form-control" id="set-assoc-name" required>
+              </div>
+              <div class="form-group">
+                <label>KKTC Kütük / Tescil No</label>
+                <input type="text" class="form-control" id="set-reg-no" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Misyon Metni</label>
+              <textarea class="form-control" id="set-mission" rows="2" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Vizyon Metni</label>
+              <textarea class="form-control" id="set-vision" rows="2" required></textarea>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:15px;">
+              <div class="form-group">
+                <label>Resmî Adres</label>
+                <input type="text" class="form-control" id="set-address" required>
+              </div>
+              <div class="form-group">
+                <label>Sabit Telefon (+90 392)</label>
+                <input type="text" class="form-control" id="set-phone" required>
+              </div>
+              <div class="form-group">
+                <label>WhatsApp Destek No</label>
+                <input type="text" class="form-control" id="set-wa" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>IBAN Hesapları (JSON Yapısı)</label>
+              <textarea class="form-control" id="set-ibans" rows="4" style="font-family:monospace; font-size:0.85rem;" required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Etki Sayaçları (JSON Yapısı)</label>
+              <textarea class="form-control" id="set-counters" rows="3" style="font-family:monospace; font-size:0.85rem;" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Ayarları Güncelle</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Dosya & Storage -->
+      <section id="tab-storage" class="tab-pane" style="display:none;">
+        <div class="panel-card">
+          <h3 style="color:var(--primary); margin-bottom:15px;">Resmî Tüzük PDF Yükle (Documents Bucket)</h3>
+          <div style="display:flex; gap:15px; align-items:center;">
+            <input type="file" id="charter-file-input" accept="application/pdf" class="form-control">
+            <button class="btn btn-secondary" id="upload-charter-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Tüzük Yükle</button>
+          </div>
+          <small style="display:block; margin-top:8px; color:var(--text-muted);" id="current-charter-status">Mevcut Tüzük: Yok</small>
+        </div>
+
+        <div class="panel-card">
+          <h3 style="color:var(--primary); margin-bottom:15px;">Galeriye Görsel Yükle (Media Bucket)</h3>
+          <div style="display:flex; gap:15px; align-items:center; margin-bottom:15px;">
+            <input type="text" id="gallery-img-title" class="form-control" placeholder="Görsel Başlığı">
+            <input type="file" id="gallery-file-input" accept="image/*" class="form-control">
+            <button class="btn btn-primary" id="upload-gallery-btn"><i class="fa-solid fa-image"></i> Medya Ekle</button>
+          </div>
+          <div class="grid-3" id="admin-gallery-preview"></div>
+        </div>
+      </section>
+
+      <!-- Üye Yönetimi -->
+      <section id="tab-members" class="tab-pane" style="display:none;">
+        <div class="panel-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
+            <h3 style="color:var(--primary);">Üye Listesi ve Onay Sistemi</h3>
+            <div style="display:flex; gap:10px;">
+              <input type="text" id="member-search" class="form-control" placeholder="İsim veya Kimlik Ara..." style="width:200px;">
+              <select id="member-filter-status" class="form-control" style="width:130px;">
+                <option value="">Tümü</option>
+                <option value="pending">Onay Bekleyen</option>
+                <option value="active">Aktif Üyeler</option>
+                <option value="rejected">Reddedilen</option>
+              </select>
+              <button class="btn btn-outline btn-sm" id="export-members-csv"><i class="fa-solid fa-file-excel"></i> Dışa Aktar (CSV)</button>
+            </div>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Ad Soyad</th>
+                  <th>Kimlik / Pasaport</th>
+                  <th>İlçe / Tel</th>
+                  <th>Rol</th>
+                  <th>Durum</th>
+                  <th>İşlemler</th>
+                </tr>
+              </thead>
+              <tbody id="admin-members-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Aidat & Bağış İzleme -->
+      <section id="tab-finance" class="tab-pane" style="display:none;">
+        <div class="panel-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <h3 style="color:var(--primary);">Manuel Tahsilat Ekle (Elden / Banka)</h3>
+          </div>
+          <form id="manual-payment-form" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:10px; align-items:flex-end;">
+            <div>
+              <label style="font-size:0.8rem; font-weight:600;">Ödeyen Kişi</label>
+              <input type="text" class="form-control" id="man-payer" required>
+            </div>
+            <div>
+              <label style="font-size:0.8rem; font-weight:600;">E-Posta</label>
+              <input type="email" class="form-control" id="man-email" required>
+            </div>
+            <div>
+              <label style="font-size:0.8rem; font-weight:600;">Tutar</label>
+              <input type="number" class="form-control" id="man-amount" required>
+            </div>
+            <div>
+              <label style="font-size:0.8rem; font-weight:600;">Para Birimi</label>
+              <select class="form-control" id="man-currency">
+                <option value="TRY">TRY</option>
+                <option value="GBP">GBP</option>
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:0.8rem; font-weight:600;">Tür</label>
+              <select class="form-control" id="man-type">
+                <option value="dues">Aidat</option>
+                <option value="donation">Bağış</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-secondary btn-block">Tahsilatı Kaydet</button>
+          </form>
+        </div>
+
+        <div class="panel-card">
+          <h3 style="color:var(--primary); margin-bottom:15px;">Tüm Finansal Hareketler (Sanal POS + Manuel)</h3>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Kişi</th>
+                  <th>Tür</th>
+                  <th>Tutar</th>
+                  <th>Ref No / Gateway</th>
+                  <th>Durum</th>
+                  <th>Sil</th>
+                </tr>
+              </thead>
+              <tbody id="admin-payments-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>
