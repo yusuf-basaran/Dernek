@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Güvenli Bağış - KKTC Dayanışma Derneği</title>
+  <meta name="description" content="Kuzey Kıbrıs genelinde ihtiyaç sahiplerine destek için online bağış yapın. Nestpay 3D Secure güvenceli ödeme.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://dernek.org.ct/bagis.html">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background: #f1f5f9;">
+
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-area">
+        <div class="logo-symbol"><i class="fa-solid fa-hands-holding-child"></i></div>
+        <div class="logo-text">
+          <h1>KKTC Dayanışma Derneği</h1>
+          <span>Güvenli Bağış Portalı</span>
+        </div>
+      </a>
+      <a href="index.html" class="btn btn-outline btn-sm"><i class="fa-solid fa-arrow-left"></i> Ana Sayfaya Dön</a>
+    </div>
+  </header>
+
+  <div class="container" style="max-width: 650px; margin: 50px auto;">
+    <div class="panel-card" id="donation-card">
+      <div style="text-align: center; margin-bottom: 25px;">
+        <h2 style="color: var(--primary);">Online Güvenli Bağış</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">KKTC Bankaları Sanal POS Altyapısı ile 3D Secure Güvencesi</p>
+      </div>
+
+      <form id="donation-form">
+        <div class="form-group">
+          <label>Bağış Türü</label>
+          <div style="display:flex; gap:10px;">
+            <label style="flex:1; border:1px solid var(--border); padding:10px; border-radius:var(--radius); text-align:center; cursor:pointer;">
+              <input type="radio" name="donation_freq" value="single" checked> Tek Seferlik
+            </label>
+            <label style="flex:1; border:1px solid var(--border); padding:10px; border-radius:var(--radius); text-align:center; cursor:pointer;">
+              <input type="radio" name="donation_freq" value="recurring"> Düzenli (Aylık)
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Para Birimi ve Tutar</label>
+          <div style="display:flex; gap:10px;">
+            <select class="form-control" style="width:110px;" id="don-currency">
+              <option value="TRY">TRY (₺)</option>
+              <option value="GBP">GBP (£)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="USD">USD ($)</option>
+            </select>
+            <input type="number" class="form-control" id="don-amount" placeholder="Örn: 500" min="10" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Ad Soyad</label>
+          <input type="text" class="form-control" id="don-name" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+          <div class="form-group">
+            <label>KKTC Telefon No</label>
+            <input type="text" class="form-control" id="don-phone" placeholder="0533 123 4567" required>
+          </div>
+          <div class="form-group">
+            <label>E-Posta (Makbuz için)</label>
+            <input type="email" class="form-control" id="don-email" required>
+          </div>
+        </div>
+
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid var(--border);">
+        <h4 style="margin-bottom:15px; color:var(--primary);"><i class="fa-regular fa-credit-card"></i> Kart Bilgileri (Nestpay Gateway)</h4>
+
+        <div class="form-group">
+          <label>Kart Üzerindeki İsim</label>
+          <input type="text" class="form-control" id="card-holder" placeholder="AHMET MEHMET" required>
+        </div>
+
+        <div class="form-group">
+          <label>Kart Numarası</label>
+          <input type="text" class="form-control" id="card-number" placeholder="**** **** **** ****" maxlength="19" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+          <div class="form-group">
+            <label>Son Kullanma (AA/YY)</label>
+            <input type="text" class="form-control" id="card-exp" placeholder="12/28" maxlength="5" required>
+          </div>
+          <div class="form-group">
+            <label>CVV / Güvenlik Kodu</label>
+            <input type="password" class="form-control" id="card-cvv" placeholder="***" maxlength="3" required>
+          </div>
+        </div>
+
+        <label class="form-check-legal" style="margin-top: 15px;">
+          <input type="checkbox" id="don-consent" required>
+          <span>Bağış işlemim kapsamında verilerimin yasal muhasebe kütüğüne işlenmesini ve <a href="#" id="link-don-privacy" style="color:var(--primary); text-decoration:underline;">89/2007 sayılı Aydınlatma Metnini</a> onaylıyorum.</span>
+        </label>
+
+        <button type="submit" class="btn btn-secondary btn-block" style="padding: 14px; font-size: 1.05rem;">
+          <i class="fa-solid fa-shield-halved"></i> 3D Secure ile Güvenli Bağış Yap
+        </button>
+      </form>
+    </div>
+
+    <!-- Başarılı Ödeme Makbuzu -->
+    <div class="panel-card" id="receipt-card" style="display:none; text-align:center;">
+      <div style="color: var(--success); font-size: 3.5rem; margin-bottom: 10px;">
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h3 style="color:var(--primary);">Bağışınız Alındı, Teşekkür Ederiz!</h3>
+      <p style="color:var(--text-muted); font-size:0.9rem;">Ödemeniz KKTC Sanal POS onayından geçmiş ve resmî kütüğümüze işlenmiştir.</p>
+
+      <div style="background:var(--bg-light); border:1px dashed var(--border); border-radius:var(--radius); padding:20px; margin:20px 0; text-align:left;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <strong>Referans No:</strong> <span id="rec-ref">REF-00000</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <strong>Bağışçı:</strong> <span id="rec-name">-</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <strong>Tutar:</strong> <span id="rec-amount">-</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <strong>Tarih:</strong> <span id="rec-date">-</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <strong>POS Terminali:</strong> <span>NESTPAY-KKTC-V3</span>
+        </div>
+        <div style="margin-top:15px; text-align:center; border-top:1px solid var(--border); padding-top:15px;">
+          <div style="font-family: monospace; letter-spacing: 4px; font-size:1.2rem; background:#fff; padding:5px; border-radius:4px;">
+            ||||| | |||| |||||| || | |||| |||
+          </div>
+          <small style="color:var(--text-muted);">Elektronik Doğrulama Kodu</small>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="window.print()"><i class="fa-solid fa-print"></i> Makbuzu Yazdır / PDF</button>
+      <a href="index.html" class="btn btn-outline" style="margin-left:10px;">Ana Sayfaya Dön</a>
+    </div>
+  </div>
+
+  <!-- 3D Secure Simülasyon Modalı -->
+  <div class="modal-backdrop" id="secure-modal">
+    <div class="modal-content">
+      <div style="text-align:center; margin-bottom:15px;">
+        <h4 style="color:var(--primary);"><i class="fa-solid fa-lock"></i> KKTC Bankalararası 3D Secure</h4>
+        <small style="color:var(--text-muted);">Lütfen telefonunuza gelen SMS onay kodunu giriniz.</small>
+      </div>
+      <div style="background:#e0f2fe; padding:10px; border-radius:var(--radius); font-size:0.85rem; margin-bottom:15px; color:#0369a1;">
+        <strong>Test Onay Kodu:</strong> <code>123456</code>
+      </div>
+      <div class="form-group">
+        <label>SMS Onay Kodu (6 Haneli)</label>
+        <input type="text" class="form-control" id="sms-otp" maxlength="6" placeholder="123456" style="text-align:center; font-size:1.4rem; letter-spacing:5px;" required>
+      </div>
+      <button class="btn btn-primary btn-block" id="verify-otp-btn">Onayla ve Ödemeyi Tamamla</button>
+      <button class="btn btn-outline btn-block btn-sm" style="margin-top:10px;" id="cancel-otp-btn">İptal Et</button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase, validateKKTCPhone } from './js/supabase-client.js';
+    import { initCookieBanner, openLegalModal, LEGAL_TEXTS } from './js/legal.js';
+
+    initCookieBanner();
+
+    document.getElementById('link-don-privacy').addEventListener('click', (e) => {
+      e.preventDefault();
+      openLegalModal('Bağışçı Aydınlatma Metni', LEGAL_TEXTS.kvkk);
+    });
+
+    let pendingPaymentData = null;
+
+    document.getElementById('donation-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const phone = document.getElementById('don-phone').value;
+      if (!validateKKTCPhone(phone)) {
+        alert('Lütfen geçerli bir KKTC telefon numarası giriniz (+90 392, 0533, 0542 veya 0548).');
+        return;
+      }
+
+      pendingPaymentData = {
+        payer_name: document.getElementById('don-name').value,
+        payer_phone: phone,
+        payer_email: document.getElementById('don-email').value,
+        amount: parseFloat(document.getElementById('don-amount').value),
+        currency: document.getElementById('don-currency').value,
+        type: 'donation',
+        period_label: document.querySelector('input[name="donation_freq"]:checked').value === 'recurring' ? 'Aylık Düzenli' : 'Tek Seferlik',
+        transaction_ref: 'DON-' + Math.floor(100000 + Math.random() * 900000),
+        nestpay_order_id: 'NEST-' + Date.now()
+      };
+
+      document.getElementById('secure-modal').style.display = 'flex';
+    });
+
+    document.getElementById('cancel-otp-btn').addEventListener('click', () => {
+      document.getElementById('secure-modal').style.display = 'none';
+      pendingPaymentData = null;
+    });
+
+    document.getElementById('verify-otp-btn').addEventListener('click', async () => {
+      const otp = document.getElementById('sms-otp').value;
+      if (otp !== '123456') {
+        alert('Hatalı SMS kodu! Lütfen test kodu olan 123456 yazınız.');
+        return;
+      }
+
+      document.getElementById('verify-otp-btn').disabled = true;
+      document.getElementById('verify-otp-btn').innerText = 'İşleniyor...';
+
+      const payload = {
+        ...pendingPaymentData,
+        status: 'completed',
+        notes: 'KKTC Nestpay 3D Secure Simülasyonu ile ödendi'
+      };
+
+      const { data, error } = await supabase.from('dues_payments').insert([payload]).select().single();
+
+      document.getElementById('secure-modal').style.display = 'none';
+      document.getElementById('verify-otp-btn').disabled = false;
+      document.getElementById('verify-otp-btn').innerText = 'Onayla ve Ödemeyi Tamamla';
+
+      if (error) {
+        alert('İşlem kaydedilirken bir hata oluştu: ' + error.message);
+      } else {
+        await supabase.from('consent_logs').insert([{
+          identifier: pendingPaymentData.payer_email,
+          consent_type: 'donation_privacy',
+          is_accepted: true,
+          user_agent: navigator.userAgent
+        }]);
+
+        document.getElementById('donation-card').style.display = 'none';
+        document.getElementById('receipt-card').style.display = 'block';
+
+        document.getElementById('rec-ref').innerText = data.transaction_ref;
+        document.getElementById('rec-name').innerText = data.payer_name;
+        document.getElementById('rec-amount').innerText = `${data.amount} ${data.currency}`;
+        document.getElementById('rec-date').innerText = new Date(data.created_at).toLocaleString('tr-TR');
+      }
+    });
+  </script>
+</body>
+</html>
