@@ -5,7 +5,7 @@ export const SUPABASE_URL = 'https://ejtcditnmrinxcookwnu.supabase.co';
 
 // DİKKAT: Tarayıcı tarafında RLS politikalarının çalışması için yalnızca 'anon' (public) anahtarı kullanılmalıdır.
 // Supabase panelinde: Settings -> API -> Project API keys altındaki 'anon' / 'public' anahtarını buraya yapıştırın.
-export const SUPABASE_ANON_KEY = 'BURAYA_PANELDEKI_ANON_PUBLIC_KEYI_YAPISTIRIN';
+export const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVqdGNkaXRubXJpbnhjb29rd251Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE0ODk3MzAsImV4cCI6MjEwNzA2NTczMH0.rix-4iu0mvMYVfNSkOtTBvAVl2XxyMgJFLo3Xa83Dn8';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
