@@ -2,7 +2,6 @@ import { supabase, requireAuth } from './supabase-client.js';
 
 let cachedMembers = [];
 
-// Modern Toast Bildirim Fonksiyonu
 function showAdminToast(message, isError = false) {
   const toast = document.getElementById('admin-toast');
   const text = document.getElementById('admin-toast-text');
@@ -44,20 +43,23 @@ async function initAdminDashboard() {
 
   document.getElementById('admin-user-title').innerText = `${auth.profile.full_name} (${auth.profile.role})`;
 
-  document.querySelectorAll('.sidebar-menu button').forEach(btn => {
+  // Üst Yatay Sekme Değişimi
+  document.querySelectorAll('.admin-top-nav button').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.sidebar-menu button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.admin-top-nav button').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
       btn.classList.add('active');
       document.getElementById(btn.dataset.tab).style.display = 'block';
     });
   });
 
+  // Çıkış Butonu
   document.getElementById('admin-logout-btn').addEventListener('click', async () => {
     await supabase.auth.signOut();
     window.location.href = 'login.html';
   });
 
+  // Verileri Yükle
   await loadCorporateSettings();
   await loadAdminNews();
   await loadAdminReports();
@@ -159,7 +161,7 @@ document.getElementById('news-add-form').addEventListener('submit', async (e) =>
       const { data: { publicUrl } } = supabase.storage.from('media').getPublicUrl(fileName);
       cover_image_url = publicUrl;
     } else {
-      console.warn('Görsel storage yüklenemedi, varsayılan görsel kullanılacak:', uploadError.message);
+      console.warn('Görsel storage yüklenemedi:', uploadError.message);
     }
   }
 
