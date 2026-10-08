@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yönetim Konsolu - KKTC Dayanışma Derneği</title>
   <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=2.2">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -30,14 +30,16 @@
     <aside class="sidebar">
       <div class="sidebar-menu">
         <button class="active" data-tab="tab-corporate"><i class="fa-solid fa-building-columns"></i> Kurumsal Ayarlar</button>
-        <button data-tab="tab-storage"><i class="fa-solid fa-folder-open"></i> Dosya & Storage</button>
+        <button data-tab="tab-news"><i class="fa-solid fa-newspaper"></i> Haber & Duyurular</button>
+        <button data-tab="tab-reports"><i class="fa-solid fa-file-invoice"></i> Faaliyet Raporları</button>
+        <button data-tab="tab-storage"><i class="fa-solid fa-folder-open"></i> Dosya & Galeri</button>
         <button data-tab="tab-members"><i class="fa-solid fa-users"></i> Üye Yönetimi</button>
         <button data-tab="tab-finance"><i class="fa-solid fa-money-bill-transfer"></i> Aidat & Bağışlar</button>
       </div>
     </aside>
 
     <main class="main-content">
-      <!-- Kurumsal Ayarlar -->
+      <!-- 1. Kurumsal Ayarlar -->
       <section id="tab-corporate" class="tab-pane">
         <div class="panel-card">
           <h3 style="color:var(--primary); margin-bottom:20px;">KKTC Resmî Kütük ve Kurumsal Bilgiler</h3>
@@ -93,7 +95,108 @@
         </div>
       </section>
 
-      <!-- Dosya & Storage -->
+      <!-- 2. Haber ve Duyurular -->
+      <section id="tab-news" class="tab-pane" style="display:none;">
+        <div class="panel-card">
+          <h3 style="color:var(--primary); margin-bottom:15px;"><i class="fa-solid fa-plus-circle"></i> Yeni Haber / Duyuru Ekle</h3>
+          <form id="news-add-form">
+            <div style="display:grid; grid-template-columns: 2fr 1fr; gap:15px;">
+              <div class="form-group">
+                <label>Başlık</label>
+                <input type="text" class="form-control" id="news-title" placeholder="Örn: KKTC Eğitim Destek Projemiz Başladı" required>
+              </div>
+              <div class="form-group">
+                <label>Kategori</label>
+                <select class="form-control" id="news-category" required>
+                  <option value="Haber">Haber</option>
+                  <option value="Duyuru">Duyuru</option>
+                  <option value="Etkinlik">Etkinlik</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Kısa Özet</label>
+              <input type="text" class="form-control" id="news-summary" placeholder="Kart üzerinde görünecek kısa açıklama..." required>
+            </div>
+
+            <div class="form-group">
+              <label>Detaylı İçerik</label>
+              <textarea class="form-control" id="news-content" rows="4" placeholder="Haberin tam içeriği..." required></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Kapak Görseli (Boş bırakılırsa varsayılan görsel eklenir)</label>
+              <input type="file" class="form-control" id="news-image-file" accept="image/*">
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="save-news-btn"><i class="fa-solid fa-upload"></i> Haberi Yayınla</button>
+          </form>
+        </div>
+
+        <div class="panel-card">
+          <h3 style="color:var(--primary); margin-bottom:15px;">Yayınlanmış Haber ve Duyurular</h3>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Kategori</th>
+                  <th>Başlık</th>
+                  <th>Özet</th>
+                  <th>İşlem</th>
+                </tr>
+              </thead>
+              <tbody id="admin-news-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Faaliyet ve Denetim Raporları -->
+      <section id="tab-reports" class="tab-pane" style="display:none;">
+        <div class="panel-card">
+          <h3 style="color:var(--primary); margin-bottom:15px;"><i class="fa-solid fa-file-pdf"></i> Yeni Faaliyet / Denetim Raporu Yükle</h3>
+          <form id="report-add-form">
+            <div style="display:grid; grid-template-columns: 1fr 2fr; gap:15px;">
+              <div class="form-group">
+                <label>Rapor Yılı</label>
+                <input type="number" class="form-control" id="report-year" min="2000" max="2099" value="2026" required>
+              </div>
+              <div class="form-group">
+                <label>Rapor Başlığı</label>
+                <input type="text" class="form-control" id="report-title" placeholder="Örn: 2026 Yılı Bağımsız Denetim ve Faaliyet Raporu" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Rapor PDF Dosyası</label>
+              <input type="file" class="form-control" id="report-file" accept="application/pdf" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="save-report-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Raporu Yükle ve Yayınla</button>
+          </form>
+        </div>
+
+        <div class="panel-card">
+          <h3 style="color:var(--primary); margin-bottom:15px;">Yüklenmiş Resmî Raporlar</h3>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Yıl</th>
+                  <th>Başlık</th>
+                  <th>Dosya</th>
+                  <th>İşlem</th>
+                </tr>
+              </thead>
+              <tbody id="admin-reports-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Dosya & Storage -->
       <section id="tab-storage" class="tab-pane" style="display:none;">
         <div class="panel-card">
           <h3 style="color:var(--primary); margin-bottom:15px;">Resmî Tüzük PDF Yükle (Documents Bucket)</h3>
@@ -115,7 +218,7 @@
         </div>
       </section>
 
-      <!-- Üye Yönetimi -->
+      <!-- 5. Üye Yönetimi -->
       <section id="tab-members" class="tab-pane" style="display:none;">
         <div class="panel-card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:10px;">
@@ -149,7 +252,7 @@
         </div>
       </section>
 
-      <!-- Aidat & Bağış İzleme -->
+      <!-- 6. Aidat & Bağış İzleme -->
       <section id="tab-finance" class="tab-pane" style="display:none;">
         <div class="panel-card">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
@@ -209,6 +312,12 @@
         </div>
       </section>
     </main>
+  </div>
+
+  <!-- Admin Toast Bildirim Kutusu -->
+  <div class="toast-notice" id="admin-toast">
+    <i class="fa-solid fa-circle-check" id="admin-toast-icon"></i>
+    <span id="admin-toast-text">İşlem başarıyla gerçekleştirildi.</span>
   </div>
 
   <script type="module" src="js/admin.js"></script>
