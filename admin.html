@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yönetim Konsolu - KKTC Dayanışma Derneği</title>
   <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="css/style.css?v=2.6">
+  <link rel="stylesheet" href="css/style.css?v=3.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body style="background: #f1f5f9;">
 
-  <!-- Üst Yönetici Başlığı ve Yatay Sekme Menüsü -->
   <header class="admin-header">
     <div class="admin-header-container">
       <div class="admin-brand">
@@ -26,9 +25,11 @@
       </div>
     </div>
 
-    <!-- Üst Yatay Sekmeler -->
+    <!-- Üst Sekmeler -->
     <nav class="admin-top-nav">
       <button class="active" data-tab="tab-corporate"><i class="fa-solid fa-building-columns"></i> Kurumsal Ayarlar</button>
+      <button data-tab="tab-board"><i class="fa-solid fa-user-tie"></i> Yönetim Kurulu</button>
+      <button data-tab="tab-sponsors"><i class="fa-solid fa-handshake"></i> Destekçiler / Sponsorlar</button>
       <button data-tab="tab-news"><i class="fa-solid fa-newspaper"></i> Haber & Duyurular</button>
       <button data-tab="tab-reports"><i class="fa-solid fa-file-invoice"></i> Faaliyet Raporları</button>
       <button data-tab="tab-storage"><i class="fa-solid fa-folder-open"></i> Dosya & Galeri</button>
@@ -37,7 +38,6 @@
     </nav>
   </header>
 
-  <!-- Ana İçerik Konteyneri -->
   <main class="admin-container">
     <!-- 1. Kurumsal Ayarlar -->
     <section id="tab-corporate" class="tab-pane">
@@ -98,18 +98,128 @@
       </div>
     </section>
 
-    <!-- 2. Haber ve Duyurular -->
+    <!-- 2. Yönetim Kurulu Yönetimi (YENİ SEKME) -->
+    <section id="tab-board" class="tab-pane" style="display:none;">
+      <div class="panel-card">
+        <div class="panel-card-header">
+          <h3><i class="fa-solid fa-user-plus"></i> Yönetim / Denetim Kurulu Üyesi Ekle</h3>
+          <p>Yalnızca yetkili asil ve yedek üyeleri hiyerarşik sıra numarasıyla ekleyin.</p>
+        </div>
+        <form id="board-add-form">
+          <div style="display:grid; grid-template-columns: 2fr 2fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label>Ad Soyad</label>
+              <input type="text" class="form-control" id="board-name" placeholder="Örn: Dr. Ali Yılmaz" required>
+            </div>
+            <div class="form-group">
+              <label>Unvan / Görev</label>
+              <input type="text" class="form-control" id="board-role" placeholder="Örn: Yönetim Kurulu Başkanı" required>
+            </div>
+            <div class="form-group">
+              <label>Sıra No (Hiyerarşi)</label>
+              <input type="number" class="form-control" id="board-sort" value="1" min="1" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label>Kurul Türü</label>
+              <select class="form-control" id="board-type" required>
+                <option value="yonetim_asil">Yönetim Kurulu (Asil)</option>
+                <option value="yonetim_yedek">Yönetim Kurulu (Yedek)</option>
+                <option value="denetim_asil">Denetim Kurulu (Asil)</option>
+                <option value="denetim_yedek">Denetim Kurulu (Yedek)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Fotoğraf Dosyası (Opsiyonel)</label>
+              <input type="file" class="form-control" id="board-photo-file" accept="image/*">
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="save-board-btn"><i class="fa-solid fa-floppy-disk"></i> Üyeyi Ekle</button>
+        </form>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-card-header">
+          <h3><i class="fa-solid fa-list-ol"></i> Kayıtlı Kurul Üyeleri</h3>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Sıra</th>
+                <th>Fotoğraf</th>
+                <th>Ad Soyad</th>
+                <th>Kurul</th>
+                <th>Görev Unvanı</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="admin-board-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Destekçiler / Sponsorlar (YENİ SEKME) -->
+    <section id="tab-sponsors" class="tab-pane" style="display:none;">
+      <div class="panel-card">
+        <div class="panel-card-header">
+          <h3><i class="fa-solid fa-handshake"></i> Yeni Destekçi / Sponsor Ekle</h3>
+          <p>Ana sayfada soldan sağa kayan bantta görünecek logo ve kurum ismi ekleyin.</p>
+        </div>
+        <form id="sponsor-add-form">
+          <div style="display:grid; grid-template-columns: 2fr 2fr 1fr; gap:16px;">
+            <div class="form-group">
+              <label>Kurum / Destekçi Adı</label>
+              <input type="text" class="form-control" id="spons-name" placeholder="Örn: Kıbrıs Vakıflar İdaresi" required>
+            </div>
+            <div class="form-group">
+              <label>Logo Görseli</label>
+              <input type="file" class="form-control" id="spons-logo-file" accept="image/*" required>
+            </div>
+            <div class="form-group">
+              <label>Sıralama No</label>
+              <input type="number" class="form-control" id="spons-sort" value="1" min="1" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary" id="save-sponsor-btn"><i class="fa-solid fa-plus"></i> Sponsor Ekle</button>
+        </form>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-card-header">
+          <h3><i class="fa-solid fa-building"></i> Aktif Destekçiler</h3>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Sıra</th>
+                <th>Logo</th>
+                <th>Kurum Adı</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody id="admin-sponsors-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Haber ve Duyurular -->
     <section id="tab-news" class="tab-pane" style="display:none;">
       <div class="panel-card">
         <div class="panel-card-header">
           <h3><i class="fa-solid fa-plus-circle"></i> Yeni Haber / Duyuru Yayınla</h3>
-          <p>Sitenin haberler bölümünde listelenecek yeni bir içerik oluşturun.</p>
         </div>
         <form id="news-add-form">
           <div style="display:grid; grid-template-columns: 2fr 1fr; gap:16px;">
             <div class="form-group">
               <label>Başlık</label>
-              <input type="text" class="form-control" id="news-title" placeholder="Örn: KKTC Eğitim Destek Projemiz Başladı" required>
+              <input type="text" class="form-control" id="news-title" required>
             </div>
             <div class="form-group">
               <label>Kategori</label>
@@ -123,16 +233,16 @@
 
           <div class="form-group">
             <label>Kısa Özet</label>
-            <input type="text" class="form-control" id="news-summary" placeholder="Kart üzerinde görünecek kısa açıklama..." required>
+            <input type="text" class="form-control" id="news-summary" required>
           </div>
 
           <div class="form-group">
             <label>Detaylı İçerik</label>
-            <textarea class="form-control" id="news-content" rows="4" placeholder="Haberin tam içeriği..." required></textarea>
+            <textarea class="form-control" id="news-content" rows="4" required></textarea>
           </div>
 
           <div class="form-group">
-            <label>Kapak Görseli Seçin (Opsiyonel)</label>
+            <label>Kapak Görseli</label>
             <input type="file" class="form-control" id="news-image-file" accept="image/*">
           </div>
 
@@ -142,7 +252,7 @@
 
       <div class="panel-card">
         <div class="panel-card-header">
-          <h3><i class="fa-solid fa-list"></i> Yayınlanmış Haberler</h3>
+          <h3>Yayınlanmış Haberler</h3>
         </div>
         <div class="data-table-wrap">
           <table class="data-table">
@@ -151,7 +261,6 @@
                 <th>Tarih</th>
                 <th>Kategori</th>
                 <th>Başlık</th>
-                <th>Özet</th>
                 <th>İşlem</th>
               </tr>
             </thead>
@@ -161,12 +270,11 @@
       </div>
     </section>
 
-    <!-- 3. Faaliyet ve Denetim Raporları -->
+    <!-- 5. Faaliyet ve Denetim Raporları -->
     <section id="tab-reports" class="tab-pane" style="display:none;">
       <div class="panel-card">
         <div class="panel-card-header">
-          <h3><i class="fa-solid fa-file-pdf"></i> Yeni Faaliyet / Denetim Raporu Yükle</h3>
-          <p>Yıllık mali denetim ve faaliyet raporu PDF belgelerini ekleyin.</p>
+          <h3>Yeni Faaliyet / Denetim Raporu Yükle</h3>
         </div>
         <form id="report-add-form">
           <div style="display:grid; grid-template-columns: 1fr 2fr; gap:16px;">
@@ -176,7 +284,7 @@
             </div>
             <div class="form-group">
               <label>Rapor Başlığı</label>
-              <input type="text" class="form-control" id="report-title" placeholder="Örn: 2026 Yılı Bağımsız Denetim ve Faaliyet Raporu" required>
+              <input type="text" class="form-control" id="report-title" required>
             </div>
           </div>
 
@@ -185,13 +293,13 @@
             <input type="file" class="form-control" id="report-file" accept="application/pdf" required>
           </div>
 
-          <button type="submit" class="btn btn-primary" id="save-report-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Raporu Yükle ve Yayınla</button>
+          <button type="submit" class="btn btn-primary" id="save-report-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Raporu Yükle</button>
         </form>
       </div>
 
       <div class="panel-card">
         <div class="panel-card-header">
-          <h3><i class="fa-solid fa-file-lines"></i> Yüklenmiş Resmî Raporlar</h3>
+          <h3>Yüklenmiş Resmî Raporlar</h3>
         </div>
         <div class="data-table-wrap">
           <table class="data-table">
@@ -209,22 +317,22 @@
       </div>
     </section>
 
-    <!-- 4. Dosya & Storage -->
+    <!-- 6. Dosya & Galeri -->
     <section id="tab-storage" class="tab-pane" style="display:none;">
       <div class="panel-card">
         <div class="panel-card-header">
-          <h3><i class="fa-solid fa-file-shield"></i> Resmî Tüzük PDF Yükle (Documents)</h3>
+          <h3>Resmî Tüzük PDF Yükle</h3>
         </div>
         <div style="display:flex; gap:14px; align-items:center;">
           <input type="file" id="charter-file-input" accept="application/pdf" class="form-control">
-          <button class="btn btn-secondary" id="upload-charter-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Tüzük Yükle</button>
+          <button class="btn btn-secondary" id="upload-charter-btn"><i class="fa-solid fa-cloud-arrow-up"></i> Yükle</button>
         </div>
         <small style="display:block; margin-top:8px; color:var(--text-muted);" id="current-charter-status">Mevcut Tüzük: Yok</small>
       </div>
 
       <div class="panel-card">
         <div class="panel-card-header">
-          <h3><i class="fa-solid fa-images"></i> Medya Galerisine Görsel Yükle</h3>
+          <h3>Medya Galerisine Görsel Yükle</h3>
         </div>
         <div style="display:flex; gap:14px; align-items:center; margin-bottom:18px;">
           <input type="text" id="gallery-img-title" class="form-control" placeholder="Görsel Başlığı">
@@ -235,13 +343,12 @@
       </div>
     </section>
 
-    <!-- 5. Üye Yönetimi -->
+    <!-- 7. Üye Yönetimi -->
     <section id="tab-members" class="tab-pane" style="display:none;">
       <div class="panel-card">
         <div class="panel-card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
           <div>
-            <h3><i class="fa-solid fa-users"></i> Üye Listesi ve Onay Sistemi</h3>
-            <p>Başvuruları onaylayın, yetkileri düzenleyin veya CSV olarak indirin.</p>
+            <h3>Üye Listesi ve Onay Sistemi</h3>
           </div>
           <div style="display:flex; gap:10px;">
             <input type="text" id="member-search" class="form-control" placeholder="İsim veya Kimlik Ara..." style="width:200px;">
@@ -251,7 +358,7 @@
               <option value="active">Aktif Üyeler</option>
               <option value="rejected">Reddedilen</option>
             </select>
-            <button class="btn btn-outline btn-sm" id="export-members-csv"><i class="fa-solid fa-file-excel"></i> Dışa Aktar (CSV)</button>
+            <button class="btn btn-outline btn-sm" id="export-members-csv"><i class="fa-solid fa-file-excel"></i> Dışa Aktar</button>
           </div>
         </div>
         <div class="data-table-wrap">
@@ -259,7 +366,7 @@
             <thead>
               <tr>
                 <th>Ad Soyad</th>
-                <th>Kimlik / Pasaport</th>
+                <th>Kimlik</th>
                 <th>İlçe / Tel</th>
                 <th>Rol</th>
                 <th>Durum</th>
@@ -272,27 +379,27 @@
       </div>
     </section>
 
-    <!-- 6. Aidat & Bağış İzleme -->
+    <!-- 8. Aidat & Bağışlar -->
     <section id="tab-finance" class="tab-pane" style="display:none;">
       <div class="panel-card">
         <div class="panel-card-header">
-          <h3><i class="fa-solid fa-hand-holding-dollar"></i> Manuel Tahsilat Ekle (Elden / Banka)</h3>
+          <h3>Manuel Tahsilat Ekle (Elden / Banka)</h3>
         </div>
         <form id="manual-payment-form" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap:12px; align-items:flex-end;">
           <div>
-            <label style="font-size:0.8rem; font-weight:600;">Ödeyen Kişi</label>
+            <label>Ödeyen Kişi</label>
             <input type="text" class="form-control" id="man-payer" required>
           </div>
           <div>
-            <label style="font-size:0.8rem; font-weight:600;">E-Posta</label>
+            <label>E-Posta</label>
             <input type="email" class="form-control" id="man-email" required>
           </div>
           <div>
-            <label style="font-size:0.8rem; font-weight:600;">Tutar</label>
+            <label>Tutar</label>
             <input type="number" class="form-control" id="man-amount" required>
           </div>
           <div>
-            <label style="font-size:0.8rem; font-weight:600;">Para Birimi</label>
+            <label>Para Birimi</label>
             <select class="form-control" id="man-currency">
               <option value="TRY">TRY</option>
               <option value="GBP">GBP</option>
@@ -301,7 +408,7 @@
             </select>
           </div>
           <div>
-            <label style="font-size:0.8rem; font-weight:600;">Tür</label>
+            <label>Tür</label>
             <select class="form-control" id="man-type">
               <option value="dues">Aidat</option>
               <option value="donation">Bağış</option>
@@ -313,7 +420,7 @@
 
       <div class="panel-card">
         <div class="panel-card-header">
-          <h3><i class="fa-solid fa-receipt"></i> Tüm Finansal Hareketler</h3>
+          <h3>Tüm Finansal Hareketler</h3>
         </div>
         <div class="data-table-wrap">
           <table class="data-table">
@@ -323,7 +430,7 @@
                 <th>Kişi</th>
                 <th>Tür</th>
                 <th>Tutar</th>
-                <th>Ref No / Gateway</th>
+                <th>Ref No</th>
                 <th>Durum</th>
                 <th>Sil</th>
               </tr>
@@ -335,7 +442,6 @@
     </section>
   </main>
 
-  <!-- Admin Toast Bildirim Kutusu -->
   <div class="toast-notice" id="admin-toast">
     <i class="fa-solid fa-circle-check" id="admin-toast-icon"></i>
     <span id="admin-toast-text">İşlem başarıyla gerçekleştirildi.</span>
