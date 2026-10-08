@@ -51,7 +51,7 @@ ul {
   padding: 0 20px;
 }
 
-/* Sayfa Üstü Kaydırma İlerleme Çubuğu */
+/* Sayfa Üstü İlerleme Çubuğu */
 .scroll-progress-bar {
   position: fixed;
   top: 0;
@@ -111,7 +111,141 @@ ul {
   }
 }
 
-/* MODERN & KOMPAKT FLOATING HEADER */
+/* ==========================================================
+   YÖNETİM PANELİ (ÜST YATAY SEKME) STİLLERİ
+========================================================== */
+.admin-header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.admin-header-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-brand-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.admin-brand h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1.2;
+}
+
+.admin-brand span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.admin-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-top-nav {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.admin-top-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-top-nav button {
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 11px 16px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 3px solid transparent;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.admin-top-nav button:hover {
+  color: var(--primary);
+  background: #f8fafc;
+}
+
+.admin-top-nav button.active {
+  color: var(--primary);
+  border-bottom: 3px solid var(--secondary);
+  background: #f8fafc;
+}
+
+.admin-container {
+  max-width: 1240px;
+  margin: 28px auto 60px auto;
+  padding: 0 24px;
+}
+
+.panel-card-header {
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.panel-card-header h3 {
+  font-size: 1.2rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-card-header p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.code-editor {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;
+  background: #f8fafc;
+  line-height: 1.4;
+}
+
+/* ==========================================================
+   ANA SAYFA VE KULLANICI ARAYÜZÜ STİLLERİ
+========================================================== */
 .header {
   position: sticky;
   top: 12px;
@@ -370,7 +504,7 @@ ul {
   gap: 8px;
 }
 
-/* IBAN Kartları & Kopyalama Butonu */
+/* IBAN Kartları */
 .iban-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -565,7 +699,7 @@ ul {
 .gallery-nav-prev { left: -10px; }
 .gallery-nav-next { right: -10px; }
 
-/* DAHA OTURAKLI VE KÜÇÜK SABİT AKSİYON BARI */
+/* Sabit Alt Bar */
 .sticky-action-bar {
   position: fixed;
   bottom: 12px;
@@ -650,7 +784,7 @@ ul {
   transform: translateY(-2px);
 }
 
-/* ALT ORTADA ÇIKAN MODERN TOAST BİLDİRİMİ */
+/* Toast Bildirimi */
 .toast-notice {
   position: fixed;
   bottom: 80px;
@@ -684,7 +818,7 @@ ul {
   font-size: 1rem;
 }
 
-/* SKELETON LOADING */
+/* Skeleton Yükleme */
 .skeleton {
   background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 37%, #e2e8f0 63%);
   background-size: 400% 100%;
@@ -697,7 +831,7 @@ ul {
   100% { background-position: 0 50%; }
 }
 
-/* SCROLL REVEAL */
+/* Scroll Reveal */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -840,7 +974,7 @@ ul {
   gap: 8px;
 }
 
-/* Hukuki Modal */
+/* Modallar */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -896,6 +1030,15 @@ ul {
   flex-shrink: 0;
 }
 
+.panel-card {
+  background: var(--bg-white);
+  border-radius: var(--radius);
+  padding: 25px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  margin-bottom: 25px;
+}
+
 .form-group {
   margin-bottom: 16px;
 }
@@ -922,6 +1065,39 @@ ul {
   border-color: var(--primary);
   box-shadow: 0 0 0 3px rgba(0, 45, 89, 0.1);
 }
+
+.data-table-wrap {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.88rem;
+}
+
+.data-table th, .data-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  background: #f8fafc;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.badge {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.badge-success { background: #dcfce7; color: #15803d; }
+.badge-warning { background: #fef9c3; color: #a16207; }
+.badge-danger { background: #fee2e2; color: #b91c1c; }
 
 /* Footer */
 footer {
