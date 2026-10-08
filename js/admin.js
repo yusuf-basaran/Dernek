@@ -34,8 +34,14 @@ function generateSlug(text) {
     .replace(/-+/g, '-');
 }
 
+// ÜST SEKME GEÇİŞİ VE YATAY KAYDIRMA OKLARI
 function setupTabNavigation() {
+  const nav = document.getElementById('admin-top-nav');
+  const leftBtn = document.getElementById('nav-scroll-left');
+  const rightBtn = document.getElementById('nav-scroll-right');
   const tabButtons = document.querySelectorAll('.admin-top-nav button');
+
+  // Sekme tıklama mantığı
   tabButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -50,8 +56,48 @@ function setupTabNavigation() {
 
       const targetPane = document.getElementById(targetTabId);
       if (targetPane) targetPane.style.display = 'block';
+
+      // Tıklanan butonu ortalayarak görünür alana kaydır
+      btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     });
   });
+
+  // Ok butonlarının görünürlük kontrolü
+  function checkScrollArrows() {
+    if (!nav || !leftBtn || !rightBtn) return;
+    const canScrollLeft = nav.scrollLeft > 5;
+    const canScrollRight = nav.scrollLeft < (nav.scrollWidth - nav.clientWidth - 5);
+
+    if (canScrollLeft) leftBtn.classList.add('visible');
+    else leftBtn.classList.remove('visible');
+
+    if (canScrollRight) rightBtn.classList.add('visible');
+    else rightBtn.classList.remove('visible');
+  }
+
+  if (nav && leftBtn && rightBtn) {
+    const scrollStep = 220;
+
+    leftBtn.addEventListener('click', () => {
+      nav.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+    });
+
+    rightBtn.addEventListener('click', () => {
+      nav.scrollBy({ left: scrollStep, behavior: 'smooth' });
+    });
+
+    // Mouse tekerleğiyle yatay kaydırma desteği
+    nav.addEventListener('wheel', (e) => {
+      if (e.deltaY !== 0) {
+        e.preventDefault();
+        nav.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
+
+    nav.addEventListener('scroll', checkScrollArrows);
+    window.addEventListener('resize', checkScrollArrows);
+    setTimeout(checkScrollArrows, 200);
+  }
 }
 
 async function initAdminDashboard() {
