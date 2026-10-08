@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Üye Portalı - KKTC Dayanışma Derneği</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-area">
+        <div class="logo-symbol"><i class="fa-solid fa-hands-holding-child"></i></div>
+        <div class="logo-text">
+          <h1>Üye Bilgi Sistemi</h1>
+          <span id="user-display-name">Yükleniyor...</span>
+        </div>
+      </a>
+      <div style="display:flex; gap:10px;">
+        <a href="index.html" class="btn btn-outline btn-sm">Ana Sayfa</a>
+        <button class="btn btn-secondary btn-sm" id="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Çıkış</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-menu">
+        <button class="active" data-tab="tab-overview"><i class="fa-solid fa-gauge"></i> Genel Bakış</button>
+        <button data-tab="tab-dues"><i class="fa-solid fa-receipt"></i> Aidat Borç & Ödeme</button>
+        <button data-tab="tab-profile"><i class="fa-solid fa-address-card"></i> Üye Bilgilerim</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <!-- Genel Bakış -->
+      <section id="tab-overview" class="tab-pane">
+        <div class="stats-grid" style="margin-top:0; margin-bottom:30px;">
+          <div class="stat-card">
+            <div class="stat-number" id="membership-badge">-</div>
+            <div class="stat-label">Üyelik Durumu</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="total-dues-paid">0 TRY</div>
+            <div class="stat-label">Toplam Ödenen Aidat</div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <h3 style="color:var(--primary); margin-bottom:15px;">Duyurular ve Bilgilendirmeler</h3>
+          <p style="color:var(--text-muted); font-size:0.95rem;">
+            KKTC Dernekler Mevzuatı gereği olağan genel kurul toplantıları yılda bir kez icra edilir. Lütfen iletişim bilgilerinizin güncel olduğundan emin olunuz.
+          </p>
+        </div>
+      </section>
+
+      <!-- Aidat Borç & Ödeme -->
+      <section id="tab-dues" class="tab-pane" style="display:none;">
+        <div class="panel-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h3 style="color:var(--primary);">Aidat Tahsilat Geçmişi</h3>
+            <button class="btn btn-secondary btn-sm" id="open-pay-dues-btn"><i class="fa-solid fa-credit-card"></i> Yeni Aidat Öde</button>
+          </div>
+          <div class="data-table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tarih</th>
+                  <th>Dönem</th>
+                  <th>Referans No</th>
+                  <th>Tutar</th>
+                  <th>Durum</th>
+                  <th>İşlem</th>
+                </tr>
+              </thead>
+              <tbody id="dues-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Üye Profili -->
+      <section id="tab-profile" class="tab-pane" style="display:none;">
+        <div class="panel-card" style="max-width:600px;">
+          <h3 style="color:var(--primary); margin-bottom:20px;">Profil Bilgilerini Güncelle</h3>
+          <form id="profile-update-form">
+            <div class="form-group">
+              <label>Ad Soyad</label>
+              <input type="text" class="form-control" id="prof-name" required>
+            </div>
+            <div class="form-group">
+              <label>KKTC Kimlik / Pasaport No</label>
+              <input type="text" class="form-control" id="prof-id" required>
+            </div>
+            <div class="form-group">
+              <label>KKTC Telefon No</label>
+              <input type="text" class="form-control" id="prof-phone" required>
+            </div>
+            <div class="form-group">
+              <label>İkamet İlçesi</label>
+              <select class="form-control" id="prof-city" required>
+                <option value="Lefkoşa">Lefkoşa</option>
+                <option value="Gazimağusa">Gazimağusa</option>
+                <option value="Girne">Girne</option>
+                <option value="Güzelyurt">Güzelyurt</option>
+                <option value="İskele">İskele</option>
+                <option value="Lefke">Lefke</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Meslek</label>
+              <input type="text" class="form-control" id="prof-occ">
+            </div>
+            <button type="submit" class="btn btn-primary">Bilgileri Kaydet</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Panel İçi Aidat Ödeme Modalı -->
+  <div class="modal-backdrop" id="pay-modal">
+    <div class="modal-content">
+      <h3 style="color:var(--primary); margin-bottom:15px;">Aidat Ödemesi (Nestpay)</h3>
+      <form id="panel-dues-form">
+        <div class="form-group">
+          <label>Dönem Seçimi</label>
+          <select class="form-control" id="pay-period">
+            <option value="2026-Q1">2026 - 1. Çeyrek Aidatı (250 TRY)</option>
+            <option value="2026-Q2">2026 - 2. Çeyrek Aidatı (250 TRY)</option>
+            <option value="2026-Q3">2026 - 3. Çeyrek Aidatı (250 TRY)</option>
+            <option value="2026-Q4">2026 - 4. Çeyrek Aidatı (250 TRY)</option>
+            <option value="2026-YILLIK">2026 Yıllık Tam Aidat (1000 TRY)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tutar (TRY)</label>
+          <input type="number" class="form-control" id="pay-amount" value="250" required>
+        </div>
+        <div class="form-group">
+          <label>Kredi Kartı Numarası</label>
+          <input type="text" class="form-control" placeholder="**** **** **** ****" required>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+          <input type="text" class="form-control" placeholder="AA/YY" required>
+          <input type="password" class="form-control" placeholder="CVV" required>
+        </div>
+        <button type="submit" class="btn btn-secondary btn-block" style="margin-top:15px;">3D Secure Onayı ile Öde</button>
+        <button type="button" class="btn btn-outline btn-block btn-sm" style="margin-top:10px;" id="close-pay-modal">Kapat</button>
+      </form>
+    </div>
+  </div>
+
+  <script type="module" src="js/member.js"></script>
+</body>
+</html>
