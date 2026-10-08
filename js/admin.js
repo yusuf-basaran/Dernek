@@ -2,6 +2,7 @@ import { supabase, requireAuth } from './supabase-client.js';
 
 let cachedMembers = [];
 
+// Toast Bildirimi
 function showAdminToast(message, isError = false) {
   const toast = document.getElementById('admin-toast');
   const text = document.getElementById('admin-toast-text');
@@ -37,50 +38,74 @@ function generateSlug(text) {
     .replace(/-+/g, '-');
 }
 
+// SEKME DEĞİŞTİRME MEKANİZMASI (HER ŞEYDEN BAĞIMSIZ VE EN BAŞTA ÇALIŞIR)
+function setupTabNavigation() {
+  const tabButtons = document.querySelectorAll('.admin-top-nav button');
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetTabId = btn.getAttribute('data-tab');
+
+      // Tüm butonların aktifliğini kaldır
+      tabButtons.forEach(b => b.classList.remove('active'));
+      // Tıklanan butonu aktif yap
+      btn.classList.add('active');
+
+      // Tüm tab içeriklerini gizle
+      document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.style.display = 'none';
+      });
+
+      // Hedef tabı göster
+      const targetPane = document.getElementById(targetTabId);
+      if (targetPane) {
+        targetPane.style.display = 'block';
+      }
+    });
+  });
+}
+
 async function initAdminDashboard() {
+  // 1. Önce sekme geçişlerini hemen aktif et (Veritabanı beklenmeden butonlar çalışır)
+  setupTabNavigation();
+
+  // 2. Yetki kontrolü
   const auth = await requireAuth(['admin', 'super_admin']);
   if (!auth) return;
 
   document.getElementById('admin-user-title').innerText = `${auth.profile.full_name} (${auth.profile.role})`;
 
-  // Üst Yatay Sekme Değişimi
-  document.querySelectorAll('.admin-top-nav button').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.admin-top-nav button').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).style.display = 'block';
+  // 3. Çıkış Butonu
+  const logoutBtn = document.getElementById('admin-logout-btn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      window.location.href = 'login.html';
     });
-  });
+  }
 
-  // Çıkış Butonu
-  document.getElementById('admin-logout-btn').addEventListener('click', async () => {
-    await supabase.auth.signOut();
-    window.location.href = 'login.html';
-  });
-
-  // Verileri Yükle
-  await loadCorporateSettings();
-  await loadAdminNews();
-  await loadAdminReports();
-  await loadGalleryMedia();
-  await loadMembers();
-  await loadPayments();
+  // 4. Verileri birbirinden bağımsız olarak (hata olsa bile durmayacak şekilde) yükle
+  try { await loadCorporateSettings(); } catch(e) { console.error('Corporate error:', e); }
+  try { await loadAdminNews(); } catch(e) { console.error('News error:', e); }
+  try { await loadAdminReports(); } catch(e) { console.error('Reports error:', e); }
+  try { await loadGalleryMedia(); } catch(e) { console.error('Gallery error:', e); }
+  try { await loadMembers(); } catch(e) { console.error('Members error:', e); }
+  try { await loadPayments(); } catch(e) { console.error('Payments error:', e); }
 }
 
 // 1. KURUMSAL AYARLAR
 async function loadCorporateSettings() {
   const { data: s } = await supabase.from('settings_corporate').select('*').eq('id', 1).single();
   if (s) {
-    document.getElementById('set-assoc-name').value = s.association_name;
-    document.getElementById('set-reg-no').value = s.registry_no;
-    document.getElementById('set-mission').value = s.mission;
-    document.getElementById('set-vision').value = s.vision;
-    document.getElementById('set-address').value = s.address;
-    document.getElementById('set-phone').value = s.phone;
-    document.getElementById('set-wa').value = s.whatsapp;
-    document.getElementById('set-ibans').value = JSON.stringify(s.ibans, null, 2);
-    document.getElementById('set-counters').value = JSON.stringify(s.impact_counters, null, 2);
+    document.getElementById('set-assoc-name').value = s.association_name || '';
+    document.getElementById('set-reg-no').value = s.registry_no || '';
+    document.getElementById('set-mission').value = s.mission || '';
+    document.getElementById('set-vision').value = s.vision || '';
+    document.getElementById('set-address').value = s.address || '';
+    document.getElementById('set-phone').value = s.phone || '';
+    document.getElementById('set-wa').value = s.whatsapp || '';
+    document.getElementById('set-ibans').value = JSON.stringify(s.ibans || [], null, 2);
+    document.getElementById('set-counters').value = JSON.stringify(s.impact_counters || [], null, 2);
 
     if (s.charter_pdf_url) {
       document.getElementById('current-charter-status').innerHTML = `Mevcut Tüzük: <a href="${s.charter_pdf_url}" target="_blank" style="color:var(--primary); font-weight:600;">PDF Dosyasını Gör</a>`;
@@ -88,7 +113,7 @@ async function loadCorporateSettings() {
   }
 }
 
-document.getElementById('corporate-settings-form').addEventListener('submit', async (e) => {
+document.getElementById('corporate-settings-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
   try {
     const payload = {
@@ -116,6 +141,7 @@ document.getElementById('corporate-settings-form').addEventListener('submit', as
 async function loadAdminNews() {
   const { data: news, error } = await supabase.from('news_announcements').select('*').order('published_at', { ascending: false });
   const tbody = document.getElementById('admin-news-tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
 
   if (error || !news || news.length === 0) {
@@ -140,7 +166,7 @@ async function loadAdminNews() {
   });
 }
 
-document.getElementById('news-add-form').addEventListener('submit', async (e) => {
+document.getElementById('news-add-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = document.getElementById('save-news-btn');
   btn.disabled = true;
@@ -160,8 +186,6 @@ document.getElementById('news-add-form').addEventListener('submit', async (e) =>
     if (!uploadError) {
       const { data: { publicUrl } } = supabase.storage.from('media').getPublicUrl(fileName);
       cover_image_url = publicUrl;
-    } else {
-      console.warn('Görsel storage yüklenemedi:', uploadError.message);
     }
   }
 
@@ -207,6 +231,7 @@ window.deleteNewsItem = async (id) => {
 async function loadAdminReports() {
   const { data: reports, error } = await supabase.from('annual_reports').select('*').order('year', { ascending: false });
   const tbody = document.getElementById('admin-reports-tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
 
   if (error || !reports || reports.length === 0) {
@@ -230,7 +255,7 @@ async function loadAdminReports() {
   });
 }
 
-document.getElementById('report-add-form').addEventListener('submit', async (e) => {
+document.getElementById('report-add-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
   const btn = document.getElementById('save-report-btn');
   btn.disabled = true;
@@ -291,7 +316,7 @@ window.deleteReportItem = async (id) => {
 };
 
 // 4. STORAGE & RESMİ TÜZÜK & GALERİ
-document.getElementById('upload-charter-btn').addEventListener('click', async () => {
+document.getElementById('upload-charter-btn')?.addEventListener('click', async () => {
   const file = document.getElementById('charter-file-input').files[0];
   if (!file) return showAdminToast('Lütfen bir PDF dosyası seçiniz.', true);
 
@@ -309,7 +334,7 @@ document.getElementById('upload-charter-btn').addEventListener('click', async ()
   loadCorporateSettings();
 });
 
-document.getElementById('upload-gallery-btn').addEventListener('click', async () => {
+document.getElementById('upload-gallery-btn')?.addEventListener('click', async () => {
   const title = document.getElementById('gallery-img-title').value;
   const file = document.getElementById('gallery-file-input').files[0];
   if (!file || !title) return showAdminToast('Lütfen başlık ve görsel dosyası seçiniz.', true);
@@ -333,6 +358,7 @@ document.getElementById('upload-gallery-btn').addEventListener('click', async ()
 async function loadGalleryMedia() {
   const { data: media } = await supabase.from('media_gallery').select('*').order('created_at', { ascending: false });
   const container = document.getElementById('admin-gallery-preview');
+  if (!container) return;
   container.innerHTML = '';
   (media || []).forEach(m => {
     container.innerHTML += `
@@ -365,13 +391,14 @@ async function loadMembers() {
 }
 
 function renderMembersTable() {
-  const search = document.getElementById('member-search').value.toLowerCase();
-  const statusFilter = document.getElementById('member-filter-status').value;
+  const search = document.getElementById('member-search')?.value.toLowerCase() || '';
+  const statusFilter = document.getElementById('member-filter-status')?.value || '';
   const tbody = document.getElementById('admin-members-tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
 
   const filtered = cachedMembers.filter(m => {
-    const matchesSearch = m.full_name.toLowerCase().includes(search) || (m.kktc_id_or_passport && m.kktc_id_or_passport.toLowerCase().includes(search));
+    const matchesSearch = m.full_name?.toLowerCase().includes(search) || (m.kktc_id_or_passport && m.kktc_id_or_passport.toLowerCase().includes(search));
     const matchesStatus = !statusFilter || m.membership_status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -403,8 +430,8 @@ function renderMembersTable() {
   });
 }
 
-document.getElementById('member-search').addEventListener('input', renderMembersTable);
-document.getElementById('member-filter-status').addEventListener('change', renderMembersTable);
+document.getElementById('member-search')?.addEventListener('input', renderMembersTable);
+document.getElementById('member-filter-status')?.addEventListener('change', renderMembersTable);
 
 window.setMemberStatus = async (id, status) => {
   await supabase.from('profiles').update({ membership_status: status }).eq('id', id);
@@ -418,7 +445,7 @@ window.updateMemberRole = async (id, role) => {
   loadMembers();
 };
 
-document.getElementById('export-members-csv').addEventListener('click', () => {
+document.getElementById('export-members-csv')?.addEventListener('click', () => {
   if (cachedMembers.length === 0) return showAdminToast('Aktarılacak üye verisi yok.', true);
   let csv = 'Ad Soyad,E-Posta,Kimlik No,Telefon,Ilce,Meslek,Rol,Durum,KVKK Onay,Kayit Tarihi\n';
   cachedMembers.forEach(m => {
@@ -437,6 +464,7 @@ document.getElementById('export-members-csv').addEventListener('click', () => {
 async function loadPayments() {
   const { data: payments } = await supabase.from('dues_payments').select('*').order('created_at', { ascending: false });
   const tbody = document.getElementById('admin-payments-tbody');
+  if (!tbody) return;
   tbody.innerHTML = '';
 
   (payments || []).forEach(p => {
@@ -469,7 +497,7 @@ window.deletePayment = async (id) => {
   }
 };
 
-document.getElementById('manual-payment-form').addEventListener('submit', async (e) => {
+document.getElementById('manual-payment-form')?.addEventListener('submit', async (e) => {
   e.preventDefault();
   const payload = {
     payer_name: document.getElementById('man-payer').value,
@@ -491,4 +519,5 @@ document.getElementById('manual-payment-form').addEventListener('submit', async 
   }
 });
 
+// Sayfa hazır olduğunda doğrudan çalıştır
 window.addEventListener('DOMContentLoaded', initAdminDashboard);
