@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /uye-paneli.html
+
+Sitemap: https://dernek.org.ct/sitemap.xml
