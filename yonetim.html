@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yönetim ve Denetim Kurulu - KKTC Dayanışma Derneği</title>
+  <meta name="description" content="KKTC Dayanışma Derneği Yönetim ve Denetim Kurulu asil ve yedek üyeleri.">
+  <link rel="stylesheet" href="css/style.css?v=3.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="nav-container">
+      <a href="index.html" class="logo-area">
+        <div class="logo-symbol"><i class="fa-solid fa-hands-holding-child"></i></div>
+        <div class="logo-text">
+          <h1>KKTC Dayanışma Derneği</h1>
+          <span>Yönetim Kurulu</span>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <a href="index.html" class="btn btn-outline btn-sm"><i class="fa-solid fa-house"></i> Ana Sayfa</a>
+        <a href="bagis.html" class="btn-nav-donate"><i class="fa-solid fa-heart"></i> Bağış Yap</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container" style="max-width: 1100px; margin: 40px auto 80px auto;">
+    <div class="section-title">
+      <h2>Dernek Organları & Yönetim Kurulu</h2>
+      <p>Fasıl 112 Dernekler Yasası uyarınca Genel Kurulca seçilmiş yetkili organlarımız</p>
+    </div>
+
+    <!-- Yönetim Kurulu Asil Üyeler -->
+    <div style="margin-bottom: 50px;">
+      <h3 style="color:var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--secondary); padding-bottom: 8px; display:inline-block;">
+        <i class="fa-solid fa-user-tie"></i> Yönetim Kurulu (Asil)
+      </h3>
+      <div class="board-grid" id="grid-yonetim-asil">
+        <!-- JS ile doldurulur -->
+      </div>
+    </div>
+
+    <!-- Yönetim Kurulu Yedek Üyeler -->
+    <div style="margin-bottom: 50px;">
+      <h3 style="color:var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--accent); padding-bottom: 8px; display:inline-block;">
+        <i class="fa-solid fa-users"></i> Yönetim Kurulu (Yedek)
+      </h3>
+      <div class="board-grid" id="grid-yonetim-yedek"></div>
+    </div>
+
+    <!-- Denetim Kurulu Asil Üyeler -->
+    <div style="margin-bottom: 50px;">
+      <h3 style="color:var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--primary); padding-bottom: 8px; display:inline-block;">
+        <i class="fa-solid fa-scale-balanced"></i> Denetim Kurulu (Asil)
+      </h3>
+      <div class="board-grid" id="grid-denetim-asil"></div>
+    </div>
+
+    <!-- Denetim Kurulu Yedek Üyeler -->
+    <div>
+      <h3 style="color:var(--primary); margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 8px; display:inline-block;">
+        <i class="fa-solid fa-user-check"></i> Denetim Kurulu (Yedek)
+      </h3>
+      <div class="board-grid" id="grid-denetim-yedek"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container" style="text-align: center;">
+      <p>&copy; 2026 KKTC Yardımlaşma ve Dayanışma Derneği. Tüm hakları saklıdır.</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { supabase } from './js/supabase-client.js';
+
+    async function loadBoard() {
+      const { data: members, error } = await supabase
+        .from('board_members')
+        .select('*')
+        .order('sort_order', { ascending: true });
+
+      if (error || !members) return;
+
+      const defaultPhoto = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300';
+
+      const containers = {
+        yonetim_asil: document.getElementById('grid-yonetim-asil'),
+        yonetim_yedek: document.getElementById('grid-yonetim-yedek'),
+        denetim_asil: document.getElementById('grid-denetim-asil'),
+        denetim_yedek: document.getElementById('grid-denetim-yedek')
+      };
+
+      members.forEach(m => {
+        const c = containers[m.board_type];
+        if (c) {
+          c.innerHTML += `
+            <div class="board-card">
+              <img src="${m.photo_url || defaultPhoto}" alt="${m.full_name}">
+              <h4>${m.full_name}</h4>
+              <span class="board-role">${m.role_title}</span>
+            </div>
+          `;
+        }
+      });
+
+      // Boş kalanlara bilgi yaz
+      Object.keys(containers).forEach(k => {
+        if (!containers[k].innerHTML.trim()) {
+          containers[k].innerHTML = '<p style="color:var(--text-muted); font-size:0.9rem;">Bu kurul için henüz üye eklenmemiştir.</p>';
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', loadBoard);
+  </script>
+</body>
+</html>
