@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Üyelik Başvurusu - KKTC Dayanışma Derneği</title>
+  <meta name="description" content="KKTC Dayanışma Derneği resmî üyelik başvuru ekranı. Fasıl 112 Dernekler Yasası tahtında kayıt işlemleri.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://dernek.org.ct/uyelik.html">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body style="background: #f1f5f9;">
+
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="logo-area">
+        <div class="logo-symbol"><i class="fa-solid fa-hands-holding-child"></i></div>
+        <div class="logo-text">
+          <h1>KKTC Dayanışma Derneği</h1>
+          <span>Resmî Üyelik Başvuru Ekranı</span>
+        </div>
+      </a>
+      <a href="index.html" class="btn btn-outline btn-sm"><i class="fa-solid fa-arrow-left"></i> Ana Sayfa</a>
+    </div>
+  </header>
+
+  <div class="container" style="max-width: 700px; margin: 40px auto;">
+    <div class="panel-card">
+      <h2 style="color:var(--primary); margin-bottom:5px;">Dernek Üyelik Başvuru Formu</h2>
+      <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">
+        Fasıl 112 Dernekler Yasası gereğince üyelik başvuruları Yönetim Kurulu onayına tabidir.
+      </p>
+
+      <form id="membership-form">
+        <div class="form-group">
+          <label>Ad ve Soyad</label>
+          <input type="text" class="form-control" id="reg-name" required>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+          <div class="form-group">
+            <label>KKTC Kimlik No veya Pasaport No</label>
+            <input type="text" class="form-control" id="reg-id" placeholder="Örn: 123456" required>
+          </div>
+          <div class="form-group">
+            <label>İkamet Edilen İlçe</label>
+            <select class="form-control" id="reg-city" required>
+              <option value="Lefkoşa">Lefkoşa</option>
+              <option value="Gazimağusa">Gazimağusa</option>
+              <option value="Girne">Girne</option>
+              <option value="Güzelyurt">Güzelyurt</option>
+              <option value="İskele">İskele</option>
+              <option value="Lefke">Lefke</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+          <div class="form-group">
+            <label>KKTC Telefon No</label>
+            <input type="text" class="form-control" id="reg-phone" placeholder="0533 123 4567" required>
+          </div>
+          <div class="form-group">
+            <label>Meslek</label>
+            <input type="text" class="form-control" id="reg-occupation" placeholder="Örn: Öğretmen" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>E-Posta Adresi (Giriş için kullanılacaktır)</label>
+          <input type="email" class="form-control" id="reg-email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Şifre Belirleyiniz (En az 6 karakter)</label>
+          <input type="password" class="form-control" id="reg-pass" minlength="6" required>
+        </div>
+
+        <!-- Hukuki ve Mevzuat Onayları -->
+        <div style="background: #f8fafc; border: 1px solid var(--border); padding: 15px; border-radius: var(--radius); margin-top: 15px;">
+          <label class="form-check-legal">
+            <input type="checkbox" id="chk-charter" required>
+            <span><a href="#" id="link-charter" style="color:var(--primary); font-weight:600; text-decoration:underline;">Dernek Tüzüğünü</a> okudum, tüzükteki tüm yükümlülükleri ve aidat ödeme şartlarını kabul ediyorum.</span>
+          </label>
+          <label class="form-check-legal">
+            <input type="checkbox" id="chk-privacy" required>
+            <span><a href="#" id="link-privacy" style="color:var(--primary); font-weight:600; text-decoration:underline;">89/2007 Sayılı Kişisel Verilerin Korunması Yasası Aydınlatma Metnini</a> okudum.</span>
+          </label>
+          <label class="form-check-legal">
+            <input type="checkbox" id="chk-consent" required>
+            <span>Kişisel verilerimin Fasıl 112 Dernekler Yasası tahtında resmî kütüğe işlenmesine ve dernek bildirimleri için kullanılmasına açık rıza veriyorum.</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block" style="padding:12px; margin-top:15px;" id="reg-btn">
+          Üyelik Başvurusunu Tamamla
+        </button>
+      </form>
+      <div style="text-align:center; margin-top:15px;">
+        <span style="font-size:0.9rem;">Zaten üye misiniz? <a href="login.html" style="color:var(--secondary); font-weight:600;">Giriş Yapın</a></span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { supabase, validateKKTCPhone } from './js/supabase-client.js';
+    import { initCookieBanner, openLegalModal, LEGAL_TEXTS } from './js/legal.js';
+
+    initCookieBanner();
+
+    document.getElementById('link-privacy').addEventListener('click', (e) => {
+      e.preventDefault();
+      openLegalModal('Kişisel Verilerin Korunması Aydınlatma Metni', LEGAL_TEXTS.kvkk);
+    });
+
+    document.getElementById('link-charter').addEventListener('click', (e) => {
+      e.preventDefault();
+      openLegalModal('KKTC Resmî Dernek Tüzüğü Şartları', LEGAL_TEXTS.charter);
+    });
+
+    document.getElementById('membership-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const phone = document.getElementById('reg-phone').value;
+      if (!validateKKTCPhone(phone)) {
+        alert('Lütfen geçerli bir KKTC telefon numarası giriniz (+90 392, 0533, 0542 veya 0548).');
+        return;
+      }
+
+      const email = document.getElementById('reg-email').value;
+      const password = document.getElementById('reg-pass').value;
+      const fullName = document.getElementById('reg-name').value;
+      const kktcId = document.getElementById('reg-id').value;
+      const city = document.getElementById('reg-city').value;
+      const occupation = document.getElementById('reg-occupation').value;
+
+      const regBtn = document.getElementById('reg-btn');
+      regBtn.disabled = true;
+      regBtn.innerText = 'Kayıt Yapılıyor...';
+
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+            kktc_id_or_passport: kktcId,
+            phone,
+            city,
+            occupation,
+            role: 'member',
+            membership_status: 'pending',
+            kvkk_consent_accepted: true,
+            charter_accepted: true
+          }
+        }
+      });
+
+      if (error) {
+        alert('Başvuru sırasında hata: ' + error.message);
+        regBtn.disabled = false;
+        regBtn.innerText = 'Üyelik Başvurusunu Tamamla';
+      } else {
+        await supabase.from('consent_logs').insert([{
+          user_id: data.user?.id || null,
+          identifier: email,
+          consent_type: 'membership_privacy',
+          is_accepted: true,
+          user_agent: navigator.userAgent
+        }]);
+
+        alert('Üyelik başvurunuz ve yasal onaylarınız başarıyla alındı! Yönetim Kurulu onayının ardından giriş yapabilirsiniz.');
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</body>
+</html>
