@@ -33,7 +33,7 @@
   <meta name="twitter:description" content="Kuzey Kıbrıs'ta şeffaf ve hesap verebilir sivil toplum dayanışması.">
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1200">
 
-  <meta name="theme-color" content="#003366">
+  <meta name="theme-color" content="#002d59">
 
   <!-- Schema.org JSON-LD -->
   <script type="application/ld+json">
@@ -63,17 +63,19 @@
   }
   </script>
 
-  <link rel="stylesheet" href="css/style.css">
+  <!-- Önbellek sorununu önlemek için versiyon eklendi -->
+  <link rel="stylesheet" href="css/style.css?v=2.1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
   <!-- Okuma İlerleme Çubuğu -->
-  <div id="reading-progress"></div>
+  <div class="scroll-progress-bar" id="scroll-progress"></div>
 
-  <!-- Üst Menü -->
+  <!-- Modern Floating Header -->
   <header class="header">
-    <div class="container nav-container">
+    <div class="nav-container">
+      <!-- Sol: Logo & İsim -->
       <a href="index.html" class="logo-area">
         <div class="logo-symbol"><i class="fa-solid fa-hands-holding-child"></i></div>
         <div class="logo-text">
@@ -81,29 +83,40 @@
           <span id="nav-registry-no">KKTC-İÇİŞ-2024/492</span>
         </div>
       </a>
-      <nav class="nav-links">
+
+      <!-- Orta: Kapsül Menü Linkleri -->
+      <nav class="nav-links-center">
         <a href="#about">Misyon & Vizyon</a>
         <a href="#reports">Faaliyet Raporları</a>
         <a href="#news">Haberler</a>
         <a href="#accounts">Banka Hesapları</a>
         <a href="#contact">İletişim</a>
-        <a href="bagis.html" class="btn btn-secondary btn-sm">Bağış Yap</a>
+      </nav>
+
+      <!-- Sağ: Kompakt Eylem Butonları -->
+      <div class="nav-actions">
+        <a href="bagis.html" class="btn-nav-donate">
+          <i class="fa-solid fa-heart" style="font-size: 0.75rem;"></i> Bağış Yap
+        </a>
+
         <div class="user-menu-wrap" id="user-menu-wrap">
-          <a href="login.html" class="btn btn-outline btn-sm" id="auth-nav-btn">
-            <i class="fa-solid fa-user"></i> Giriş / Panel
+          <a href="login.html" class="btn-nav-login" id="auth-nav-btn">
+            <i class="fa-regular fa-user"></i> Giriş / Panel
           </a>
           <div class="user-dropdown" id="user-dropdown">
             <a href="#" id="dropdown-panel-link"><i class="fa-solid fa-gauge"></i> Yönetim Paneli</a>
             <div class="user-dropdown-divider"></div>
-            <button type="button" class="logout-item" id="dropdown-logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Güvenli Çıkış</button>
+            <button type="button" class="logout-item" id="dropdown-logout-btn">
+              <i class="fa-solid fa-right-from-bracket"></i> Güvenli Çıkış
+            </button>
           </div>
         </div>
-      </nav>
+      </div>
     </div>
   </header>
 
   <!-- Hero Banner -->
-  <section class="hero reveal-on-scroll">
+  <section class="hero reveal">
     <div class="container">
       <h2>Birlikte Daha Güçlü Bir Geleceğe</h2>
       <p id="hero-mission">Toplumsal dayanışmayı güçlendirmek ve ihtiyaç sahiplerine sürdürülebilir destek sunmak için şeffaf bir sivil toplum vizyonuyla çalışıyoruz.</p>
@@ -115,20 +128,19 @@
   </section>
 
   <!-- Rakamlarla Biz -->
-  <section class="stats-section reveal-on-scroll">
+  <section class="stats-section reveal">
     <div class="container">
       <div class="stats-grid" id="impact-counters-container">
-        <!-- Skeleton Yükleyicileri -->
-        <div class="stat-card skeleton skeleton-box"></div>
-        <div class="stat-card skeleton skeleton-box"></div>
-        <div class="stat-card skeleton skeleton-box"></div>
-        <div class="stat-card skeleton skeleton-box"></div>
+        <div class="stat-card skeleton" style="height: 110px;"></div>
+        <div class="stat-card skeleton" style="height: 110px;"></div>
+        <div class="stat-card skeleton" style="height: 110px;"></div>
+        <div class="stat-card skeleton" style="height: 110px;"></div>
       </div>
     </div>
   </section>
 
   <!-- Misyon & Vizyon & Tüzük -->
-  <section class="section reveal-on-scroll" id="about">
+  <section class="section reveal" id="about">
     <div class="container">
       <div class="section-title">
         <h3>Kurumsal Yapımız</h3>
@@ -137,11 +149,11 @@
       <div class="about-grid">
         <div class="about-card">
           <h4><i class="fa-solid fa-bullseye"></i> Misyonumuz</h4>
-          <p id="about-mission">Yükleniyor...</p>
+          <p id="about-mission">Toplumsal dayanışmayı güçlendirmek ve ihtiyaç sahiplerine sürdürülebilir destek sunmak.</p>
         </div>
         <div class="about-card">
           <h4><i class="fa-solid fa-eye"></i> Vizyonumuz</h4>
-          <p id="about-vision">Yükleniyor...</p>
+          <p id="about-vision">Kuzey Kıbrıs genelinde şeffaf ve güvenilir sivil toplum öncüsü olmak.</p>
         </div>
         <div class="about-card">
           <h4><i class="fa-solid fa-scale-balanced"></i> Resmî Tüzük</h4>
@@ -155,37 +167,37 @@
   </section>
 
   <!-- Faaliyet Raporları -->
-  <section class="section reveal-on-scroll" id="reports" style="background: #fff;">
+  <section class="section reveal" id="reports" style="background: #fff;">
     <div class="container">
       <div class="section-title">
         <h3>Faaliyet ve Denetim Raporları</h3>
         <p>Her kuruşun hesabını topluma ve üyelerimize açıkça sunuyoruz.</p>
       </div>
       <div class="grid-3" id="reports-grid">
-        <div class="about-card skeleton skeleton-box"></div>
-        <div class="about-card skeleton skeleton-box"></div>
-        <div class="about-card skeleton skeleton-box"></div>
+        <div class="about-card skeleton" style="height: 170px;"></div>
+        <div class="about-card skeleton" style="height: 170px;"></div>
+        <div class="about-card skeleton" style="height: 170px;"></div>
       </div>
     </div>
   </section>
 
   <!-- Haberler -->
-  <section class="section reveal-on-scroll" id="news">
+  <section class="section reveal" id="news">
     <div class="container">
       <div class="section-title">
         <h3>Haberler & Duyurular</h3>
         <p>Adamızdaki sahadan en son gelişmeler ve faaliyetlerimiz</p>
       </div>
       <div class="grid-3" id="news-grid">
-        <div class="news-card skeleton skeleton-box"></div>
-        <div class="news-card skeleton skeleton-box"></div>
-        <div class="news-card skeleton skeleton-box"></div>
+        <div class="news-card skeleton" style="height: 290px;"></div>
+        <div class="news-card skeleton" style="height: 290px;"></div>
+        <div class="news-card skeleton" style="height: 290px;"></div>
       </div>
     </div>
   </section>
 
   <!-- Medya Galerisi (Kayan Slider) -->
-  <section class="section reveal-on-scroll" id="gallery" style="background: #fff;">
+  <section class="section reveal" id="gallery" style="background: #fff;">
     <div class="container">
       <div class="section-title">
         <h3>Medya Galerisi</h3>
@@ -198,9 +210,9 @@
         </button>
 
         <div class="gallery-track" id="gallery-track">
-          <div class="gallery-item skeleton" style="height:250px;"></div>
-          <div class="gallery-item skeleton" style="height:250px;"></div>
-          <div class="gallery-item skeleton" style="height:250px;"></div>
+          <div class="gallery-item skeleton" style="height: 250px;"></div>
+          <div class="gallery-item skeleton" style="height: 250px;"></div>
+          <div class="gallery-item skeleton" style="height: 250px;"></div>
         </div>
 
         <button class="gallery-nav-btn gallery-nav-next" id="gallery-next" aria-label="İleri">
@@ -211,37 +223,33 @@
   </section>
 
   <!-- Banka Hesapları (IBAN) -->
-  <section class="section reveal-on-scroll" id="accounts">
+  <section class="section reveal" id="accounts">
     <div class="container">
       <div class="section-title">
         <h3>Resmî Banka Hesaplarımız</h3>
         <p>Havale veya EFT işlemlerinde açıklama alanına Ad Soyad ve Telefon yazınız.</p>
       </div>
       <div class="iban-grid" id="ibans-container">
-        <div class="iban-card skeleton skeleton-box"></div>
-        <div class="iban-card skeleton skeleton-box"></div>
-        <div class="iban-card skeleton skeleton-box"></div>
-        <div class="iban-card skeleton skeleton-box"></div>
+        <div class="iban-card skeleton" style="height: 180px;"></div>
+        <div class="iban-card skeleton" style="height: 180px;"></div>
+        <div class="iban-card skeleton" style="height: 180px;"></div>
+        <div class="iban-card skeleton" style="height: 180px;"></div>
       </div>
     </div>
   </section>
 
   <!-- Sponsorlar -->
-  <section class="section reveal-on-scroll" id="sponsors" style="background: #fff;">
+  <section class="section reveal" id="sponsors" style="background: #fff;">
     <div class="container">
       <div class="section-title">
         <h3>Destekçilerimiz & Paydaşlarımız</h3>
       </div>
-      <div style="display:flex; justify-content:center; align-items:center; gap:35px; flex-wrap:wrap;" id="sponsors-container">
-        <div class="skeleton" style="width:110px; height:40px; border-radius:6px;"></div>
-        <div class="skeleton" style="width:110px; height:40px; border-radius:6px;"></div>
-        <div class="skeleton" style="width:110px; height:40px; border-radius:6px;"></div>
-      </div>
+      <div style="display:flex; justify-content:center; align-items:center; gap:35px; flex-wrap:wrap;" id="sponsors-container"></div>
     </div>
   </section>
 
-  <!-- İletişim Formu (KVKK Korumalı) -->
-  <section class="section reveal-on-scroll" id="contact">
+  <!-- İletişim Formu -->
+  <section class="section reveal" id="contact">
     <div class="container">
       <div class="section-title">
         <h3>Bize Ulaşın</h3>
@@ -253,7 +261,7 @@
           <p><i class="fa-solid fa-location-dot"></i> <span id="contact-address">Yükleniyor...</span></p>
           <p style="margin-top:10px;"><i class="fa-solid fa-phone"></i> <span id="contact-phone">Yükleniyor...</span></p>
           <p style="margin-top:10px;"><i class="fa-brands fa-whatsapp"></i> <span id="contact-whatsapp">Yükleniyor...</span></p>
-          <div style="margin-top:18px; height:180px; border-radius:var(--radius); overflow:hidden; border:1px solid var(--border);">
+          <div style="margin-top:18px; height:190px; border-radius:var(--radius); overflow:hidden; border:1px solid var(--border);">
             <iframe src="https://maps.google.com/maps?q=Nicosia,Cyprus&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen></iframe>
           </div>
         </div>
@@ -304,26 +312,26 @@
     </div>
   </section>
 
-  <!-- 🌟 Kompakt & Zarif Sabit Eylem Çubuğu (Floating Dock) -->
+  <!-- Sabit Kompakt Aksiyon Barı -->
   <div class="sticky-action-bar">
     <a href="bagis.html" class="btn btn-secondary"><i class="fa-solid fa-heart"></i> Bağış Yap</a>
-    <a href="uyelik.html" class="btn btn-outline"><i class="fa-solid fa-user-plus"></i> Üye Ol</a>
+    <a href="uyelik.html" class="btn btn-outline" style="color:#fff; background:rgba(255,255,255,0.1); border-color:rgba(255,255,255,0.25);"><i class="fa-solid fa-user-plus"></i> Üye Ol</a>
   </div>
 
-  <!-- 🌟 Kompakt Yüzen İkonlar (WhatsApp & Yukarı Çık) -->
-  <div class="floating-actions">
-    <button class="floating-btn back-to-top" id="back-to-top-btn" title="Başa Dön" aria-label="Başa Dön">
-      <i class="fa-solid fa-arrow-up"></i>
-    </button>
-    <a href="#" id="whatsapp-link" class="floating-btn whatsapp-float" target="_blank" title="WhatsApp Destek" aria-label="WhatsApp Destek">
-      <i class="fa-brands fa-whatsapp"></i>
-    </a>
-  </div>
+  <!-- WhatsApp Float Butonu -->
+  <a href="#" id="whatsapp-link" class="whatsapp-float" target="_blank" title="WhatsApp Destek Hattı">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
 
-  <!-- 🌟 Alt Ortada Çıkan Toast Bildirimi -->
-  <div id="toast-notification">
+  <!-- Yukarı Çık Butonu -->
+  <button class="back-to-top" id="back-to-top" title="Yukarı Çık">
+    <i class="fa-solid fa-arrow-up"></i>
+  </button>
+
+  <!-- Alt Ortada Çıkan Toast Bildirimi -->
+  <div class="toast-notice" id="toast-notice">
     <i class="fa-solid fa-circle-check"></i>
-    <span id="toast-message">İşlem başarıyla tamamlandı.</span>
+    <span id="toast-text">IBAN panoya kopyalandı!</span>
   </div>
 
   <!-- Footer -->
@@ -332,12 +340,12 @@
       <div class="footer-grid">
         <div>
           <h4 id="footer-assoc-name">KKTC Dayanışma Derneği</h4>
-          <p style="margin-top: 10px; opacity: 0.8;" id="footer-registry">Kütük No: KKTC-İÇİŞ-2024/492</p>
-          <p style="margin-top: 5px; opacity: 0.8;">Fasıl 112 Dernekler ve Birlikler Yasası tahtında tescil edilmiştir.</p>
+          <p style="margin-top: 8px; opacity: 0.8;" id="footer-registry">Kütük No: KKTC-İÇİŞ-2024/492</p>
+          <p style="margin-top: 4px; opacity: 0.8;">Fasıl 112 Dernekler ve Birlikler Yasası tahtında tescil edilmiştir.</p>
         </div>
         <div>
           <h4>Hızlı Bağlantılar</h4>
-          <ul style="margin-top: 10px;">
+          <ul style="margin-top: 8px;">
             <li><a href="uyelik.html">Üyelik Başvurusu</a></li>
             <li><a href="bagis.html">Online Bağış</a></li>
             <li><a href="login.html">Üye / Yönetici Girişi</a></li>
@@ -356,70 +364,86 @@
 
     initCookieBanner();
 
-    // 🌟 Toast Bildirim Fonksiyonu
-    window.showToast = function(message) {
-      const toast = document.getElementById('toast-notification');
-      const toastMsg = document.getElementById('toast-message');
-      toastMsg.innerText = message;
+    // 1. Toast Bildirim Fonksiyonu
+    function showToast(message) {
+      const toast = document.getElementById('toast-notice');
+      const text = document.getElementById('toast-text');
+      text.innerText = message;
       toast.classList.add('show');
       setTimeout(() => {
         toast.classList.remove('show');
-      }, 3000);
-    };
+      }, 2600);
+    }
 
-    // 🌟 Buton Ripple (Dalgalanma) Efekti
-    function attachRippleEffects() {
-      document.querySelectorAll('.btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
+    // 2. Buton Ripple (Tıklama Dalga) Efekti
+    function setupRipple() {
+      document.querySelectorAll('.btn, .btn-nav-donate, .btn-nav-login').forEach(button => {
+        button.addEventListener('click', function (e) {
           const circle = document.createElement('span');
-          const diameter = Math.max(this.clientWidth, this.clientHeight);
+          const diameter = Math.max(button.clientWidth, button.clientHeight);
           const radius = diameter / 2;
-          const rect = this.getBoundingClientRect();
-
+          const rect = button.getBoundingClientRect();
           circle.style.width = circle.style.height = `${diameter}px`;
           circle.style.left = `${e.clientX - rect.left - radius}px`;
           circle.style.top = `${e.clientY - rect.top - radius}px`;
           circle.classList.add('ripple');
-
-          const ripple = this.querySelector('.ripple');
-          if (ripple) ripple.remove();
-          this.appendChild(circle);
+          const existing = button.querySelector('.ripple');
+          if (existing) existing.remove();
+          button.appendChild(circle);
         });
       });
     }
 
-    // 🌟 Scroll Reveal & Progress & Back to Top
-    function initScrollInteractions() {
-      const progressBar = document.getElementById('reading-progress');
-      const backToTopBtn = document.getElementById('back-to-top-btn');
+    // 3. Scroll Progress & Back to Top
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      document.getElementById('scroll-progress').style.width = scrolled + '%';
 
-      window.addEventListener('scroll', () => {
-        const winScroll = document.documentElement.scrollTop;
-        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        progressBar.style.width = scrolled + '%';
+      const backToTop = document.getElementById('back-to-top');
+      if (winScroll > 300) {
+        backToTop.classList.add('show');
+      } else {
+        backToTop.classList.remove('show');
+      }
+    });
 
-        if (winScroll > 300) {
-          backToTopBtn.classList.add('visible');
-        } else {
-          backToTopBtn.classList.remove('visible');
-        }
-      });
+    document.getElementById('back-to-top').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
-      backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-
+    // 4. Scroll Reveal
+    function setupScrollReveal() {
+      const reveals = document.querySelectorAll('.reveal');
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
+            entry.target.classList.add('active');
           }
         });
       }, { threshold: 0.1 });
+      reveals.forEach(el => observer.observe(el));
+    }
 
-      document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+    // 5. Sayaç Animasyonu (CountUp)
+    function animateCounters() {
+      const counters = document.querySelectorAll('.count-number');
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        const duration = 1500;
+        const step = target / (duration / 25);
+        let current = 0;
+        const timer = setInterval(() => {
+          current += step;
+          if (current >= target) {
+            counter.innerText = target;
+            clearInterval(timer);
+          } else {
+            counter.innerText = Math.floor(current);
+          }
+        }, 25);
+      });
     }
 
     document.getElementById('link-contact-kvkk').addEventListener('click', (e) => {
@@ -428,6 +452,9 @@
     });
 
     async function loadIndexData() {
+      setupRipple();
+      setupScrollReveal();
+
       // Oturum Kontrolü & Akıllı Kullanıcı Menüsü
       const auth = await getCurrentUserProfile();
       const authBtn = document.getElementById('auth-nav-btn');
@@ -490,19 +517,22 @@
           document.getElementById('charter-download-link').href = settings.charter_pdf_url;
         }
 
-        // Sayaçlar (Skeleton Temizlenip Dolduruluyor)
+        // Sayaçlar (CountUp Entegrasyonu)
         const countersContainer = document.getElementById('impact-counters-container');
         countersContainer.innerHTML = '';
         (settings.impact_counters || []).forEach(c => {
           countersContainer.innerHTML += `
             <div class="stat-card">
-              <div class="stat-number">${c.value}${c.suffix || ''}</div>
+              <div class="stat-number">
+                <span class="count-number" data-target="${c.value}">0</span>${c.suffix || ''}
+              </div>
               <div class="stat-label">${c.label}</div>
             </div>
           `;
         });
+        animateCounters();
 
-        // IBAN Blokları (Toast Entegreli)
+        // IBAN Blokları (Toast Bildirimli Kopyalama)
         const ibansContainer = document.getElementById('ibans-container');
         ibansContainer.innerHTML = '';
         (settings.ibans || []).forEach(i => {
@@ -514,11 +544,29 @@
                 <div style="font-size:0.82rem; color:var(--text-muted);">${i.account_name}</div>
                 <div class="iban-number">${i.iban}</div>
               </div>
-              <button class="btn btn-outline btn-sm btn-block" onclick="navigator.clipboard.writeText('${i.iban}'); window.showToast('${i.currency} IBAN Panoya Kopyalandı!')">
+              <button class="btn btn-outline btn-sm btn-block btn-copy" data-iban="${i.iban}" data-currency="${i.currency}">
                 <i class="fa-solid fa-copy"></i> IBAN Kopyala
               </button>
             </div>
           `;
+        });
+
+        // Kopyalama Olayları (Alert kaldırıldı, Toast eklendi)
+        document.querySelectorAll('.btn-copy').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const iban = btn.getAttribute('data-iban');
+            const curr = btn.getAttribute('data-currency');
+            await navigator.clipboard.writeText(iban);
+            
+            btn.classList.add('copied');
+            btn.innerHTML = `<i class="fa-solid fa-check"></i> Kopyalandı!`;
+            showToast(`${curr} IBAN panoya kopyalandı!`);
+
+            setTimeout(() => {
+              btn.classList.remove('copied');
+              btn.innerHTML = `<i class="fa-solid fa-copy"></i> IBAN Kopyala`;
+            }, 2500);
+          });
         });
       }
 
@@ -526,46 +574,42 @@
       const { data: reports } = await supabase.from('annual_reports').select('*').order('year', { ascending: false });
       const reportsContainer = document.getElementById('reports-grid');
       reportsContainer.innerHTML = '';
-      if (!reports || reports.length === 0) {
-        reportsContainer.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:var(--text-muted);">Henüz faaliyet raporu bulunmamaktadır.</p>';
-      } else {
-        reports.forEach(r => {
-          reportsContainer.innerHTML += `
-            <div class="about-card" style="text-align:center;">
-              <i class="fa-solid fa-file-lines" style="font-size:2.2rem; color:var(--primary); margin-bottom:12px;"></i>
-              <h4 style="justify-content:center;">${r.year} Raporu</h4>
-              <p style="font-size:0.9rem;">${r.title}</p>
-              <a href="${r.file_url}" target="_blank" class="btn btn-outline btn-sm" style="margin-top:14px;">
-                <i class="fa-solid fa-download"></i> İncele & İndir
-              </a>
-            </div>
-          `;
-        });
-      }
+      (reports || []).forEach(r => {
+        reportsContainer.innerHTML += `
+          <div class="about-card" style="text-align:center;">
+            <i class="fa-solid fa-file-lines" style="font-size:2.2rem; color:var(--primary); margin-bottom:12px;"></i>
+            <h4>${r.year} Faaliyet Raporu</h4>
+            <p style="font-size:0.88rem; color:var(--text-muted);">${r.title}</p>
+            <a href="${r.file_url}" target="_blank" class="btn btn-outline btn-sm" style="margin-top:14px;">
+              <i class="fa-solid fa-download"></i> İncele & İndir
+            </a>
+          </div>
+        `;
+      });
 
       // Haberler
       const { data: news } = await supabase.from('news_announcements').select('*').eq('is_published', true).order('published_at', { ascending: false }).limit(3);
       const newsContainer = document.getElementById('news-grid');
       newsContainer.innerHTML = '';
-      if (!news || news.length === 0) {
-        newsContainer.innerHTML = '<p style="text-align:center; grid-column:1/-1; color:var(--text-muted);">Henüz yayınlanmış haber bulunmamaktadır.</p>';
-      } else {
-        news.forEach(n => {
-          newsContainer.innerHTML += `
-            <div class="news-card">
-              <img src="${n.cover_image_url || 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=600'}" alt="${n.title}" loading="lazy">
-              <div class="news-body">
-                <div class="news-meta">${n.category} &bull; ${new Date(n.published_at).toLocaleDateString('tr-TR')}</div>
-                <h4 class="news-title">${n.title}</h4>
-                <p style="font-size:0.88rem; color:var(--text-muted);">${n.summary}</p>
-              </div>
+      (news || []).forEach(n => {
+        newsContainer.innerHTML += `
+          <div class="news-card">
+            <img src="${n.cover_image_url || 'https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=600'}" alt="${n.title}">
+            <div class="news-body">
+              <div class="news-meta">${n.category} &bull; ${new Date(n.published_at).toLocaleDateString('tr-TR')}</div>
+              <h4 class="news-title">${n.title}</h4>
+              <p style="font-size:0.88rem; color:var(--text-muted);">${n.summary}</p>
             </div>
-          `;
-        });
-      }
+          </div>
+        `;
+      });
 
-      // Medya Galerisi
-      const { data: gallery } = await supabase.from('media_gallery').select('*').order('created_at', { ascending: false });
+      // Medya Galerisi (Kayan Slider)
+      const { data: gallery } = await supabase
+        .from('media_gallery')
+        .select('*')
+        .order('created_at', { ascending: false });
+
       const track = document.getElementById('gallery-track');
       track.innerHTML = '';
 
@@ -621,15 +665,14 @@
         `;
       });
 
-      attachRippleEffects();
+      setupRipple();
     }
 
-    // İletişim Formu
     document.getElementById('contact-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const phone = document.getElementById('contact-phone-input').value;
       if (!validateKKTCPhone(phone)) {
-        window.showToast('Lütfen geçerli bir KKTC telefon numarası giriniz (+90 392, 0533, 0542, 0548).');
+        showToast('Geçerli bir KKTC telefon numarası giriniz.');
         return;
       }
 
@@ -645,7 +688,7 @@
 
       const { error } = await supabase.from('contact_messages').insert([payload]);
       if (error) {
-        window.showToast('Mesaj iletilemedi: ' + error.message);
+        showToast('Mesaj iletilemedi: ' + error.message);
       } else {
         await supabase.from('consent_logs').insert([{
           identifier: email,
@@ -653,16 +696,12 @@
           is_accepted: true,
           user_agent: navigator.userAgent
         }]);
-        window.showToast('Mesajınız başarıyla dernek yönetimimize iletildi.');
+        showToast('Mesajınız dernek yönetimimize iletildi!');
         e.target.reset();
       }
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
-      initScrollInteractions();
-      loadIndexData();
-      attachRippleEffects();
-    });
+    window.addEventListener('DOMContentLoaded', loadIndexData);
   </script>
 </body>
 </html>
