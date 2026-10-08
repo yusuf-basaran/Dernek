@@ -31,11 +31,12 @@ export function initCookieBanner() {
   banner.innerHTML = `
     <div class="cookie-content">
       <div class="cookie-text">
-        <i class="fa-solid fa-cookie-bite"></i> Sitemizde yasal mevzuata uygun olarak oturum güvenliğini sağlamak amacıyla zorunlu çerezler kullanılmaktadır. Detaylar için <a id="cookie-read-link">Çerez Politikamızı</a> inceleyebilirsiniz.
+        <i class="fa-solid fa-cookie-bite" style="color:#f59e0b; margin-right:6px;"></i> 
+        Sitemizde yasal mevzuata uygun olarak oturum güvenliğini sağlamak amacıyla zorunlu çerezler kullanılmaktadır. Detaylar için <a id="cookie-read-link">Çerez Politikamızı</a> inceleyebilirsiniz.
       </div>
       <div class="cookie-actions">
-        <button class="btn btn-outline btn-sm" id="cookie-reject-btn" style="color:#fff; border-color:#fff;">Yalnızca Zorunlu</button>
-        <button class="btn btn-secondary btn-sm" id="cookie-accept-btn">Kabul Ediyorum</button>
+        <button class="btn-cookie-reject" id="cookie-reject-btn">Yalnızca Zorunlu</button>
+        <button class="btn-cookie-accept" id="cookie-accept-btn">Kabul Ediyorum</button>
       </div>
     </div>
   `;
