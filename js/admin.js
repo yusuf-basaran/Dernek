@@ -2,12 +2,10 @@ import { supabase, requireAuth } from './supabase-client.js';
 
 let cachedMembers = [];
 
-// Toast Bildirimi
 function showAdminToast(message, isError = false) {
   const toast = document.getElementById('admin-toast');
   const text = document.getElementById('admin-toast-text');
   const icon = document.getElementById('admin-toast-icon');
-
   if (!toast) return;
 
   text.innerText = message;
@@ -20,9 +18,7 @@ function showAdminToast(message, isError = false) {
   }
 
   toast.classList.add('show');
-  setTimeout(() => {
-    toast.classList.remove('show');
-  }, 3000);
+  setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
 function generateSlug(text) {
@@ -38,7 +34,6 @@ function generateSlug(text) {
     .replace(/-+/g, '-');
 }
 
-// SEKME DEĞİŞTİRME MEKANİZMASI (HER ŞEYDEN BAĞIMSIZ VE EN BAŞTA ÇALIŞIR)
 function setupTabNavigation() {
   const tabButtons = document.querySelectorAll('.admin-top-nav button');
   tabButtons.forEach(btn => {
@@ -46,36 +41,27 @@ function setupTabNavigation() {
       e.preventDefault();
       const targetTabId = btn.getAttribute('data-tab');
 
-      // Tüm butonların aktifliğini kaldır
       tabButtons.forEach(b => b.classList.remove('active'));
-      // Tıklanan butonu aktif yap
       btn.classList.add('active');
 
-      // Tüm tab içeriklerini gizle
       document.querySelectorAll('.tab-pane').forEach(pane => {
         pane.style.display = 'none';
       });
 
-      // Hedef tabı göster
       const targetPane = document.getElementById(targetTabId);
-      if (targetPane) {
-        targetPane.style.display = 'block';
-      }
+      if (targetPane) targetPane.style.display = 'block';
     });
   });
 }
 
 async function initAdminDashboard() {
-  // 1. Önce sekme geçişlerini hemen aktif et (Veritabanı beklenmeden butonlar çalışır)
   setupTabNavigation();
 
-  // 2. Yetki kontrolü
   const auth = await requireAuth(['admin', 'super_admin']);
   if (!auth) return;
 
   document.getElementById('admin-user-title').innerText = `${auth.profile.full_name} (${auth.profile.role})`;
 
-  // 3. Çıkış Butonu
   const logoutBtn = document.getElementById('admin-logout-btn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
@@ -84,13 +70,14 @@ async function initAdminDashboard() {
     });
   }
 
-  // 4. Verileri birbirinden bağımsız olarak (hata olsa bile durmayacak şekilde) yükle
-  try { await loadCorporateSettings(); } catch(e) { console.error('Corporate error:', e); }
-  try { await loadAdminNews(); } catch(e) { console.error('News error:', e); }
-  try { await loadAdminReports(); } catch(e) { console.error('Reports error:', e); }
-  try { await loadGalleryMedia(); } catch(e) { console.error('Gallery error:', e); }
-  try { await loadMembers(); } catch(e) { console.error('Members error:', e); }
-  try { await loadPayments(); } catch(e) { console.error('Payments error:', e); }
+  try { await loadCorporateSettings(); } catch(e) { console.error(e); }
+  try { await loadAdminBoard(); } catch(e) { console.error(e); }
+  try { await loadAdminSponsors(); } catch(e) { console.error(e); }
+  try { await loadAdminNews(); } catch(e) { console.error(e); }
+  try { await loadAdminReports(); } catch(e) { console.error(e); }
+  try { await loadGalleryMedia(); } catch(e) { console.error(e); }
+  try { await loadMembers(); } catch(e) { console.error(e); }
+  try { await loadPayments(); } catch(e) { console.error(e); }
 }
 
 // 1. KURUMSAL AYARLAR
@@ -131,13 +118,179 @@ document.getElementById('corporate-settings-form')?.addEventListener('submit', a
 
     const { error } = await supabase.from('settings_corporate').update(payload).eq('id', 1);
     if (error) showAdminToast('Hata: ' + error.message, true);
-    else showAdminToast('Kurumsal ayarlar başarıyla kaydedildi!');
+    else showAdminToast('Kurumsal ayarlar kaydedildi!');
   } catch (err) {
     showAdminToast('JSON formatı geçersiz!', true);
   }
 });
 
-// 2. HABERLER & DUYURULAR
+// 2. YÖNETİM KURULU İŞLEMLERİ
+async function loadAdminBoard() {
+  const { data: board, error } = await supabase.from('board_members').select('*').order('sort_order', { ascending: true });
+  const tbody = document.getElementById('admin-board-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  if (error || !board || board.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Henüz kurul üyesi eklenmemiştir.</td></tr>';
+    return;
+  }
+
+  const roleLabels = {
+    yonetim_asil: 'Yönetim (Asil)',
+    yonetim_yedek: 'Yönetim (Yedek)',
+    denetim_asil: 'Denetim (Asil)',
+    denetim_yedek: 'Denetim (Yedek)'
+  };
+
+  board.forEach(m => {
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>#${m.sort_order}</strong></td>
+        <td><img src="${m.photo_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100'}" style="width:36px; height:36px; border-radius:50%; object-fit:cover;"></td>
+        <td><strong>${m.full_name}</strong></td>
+        <td><span class="badge ${m.board_type.includes('asil') ? 'badge-success' : 'badge-warning'}">${roleLabels[m.board_type]}</span></td>
+        <td>${m.role_title}</td>
+        <td>
+          <button class="btn btn-outline btn-sm" style="color:var(--danger); border-color:var(--danger);" onclick="deleteBoardMember('${m.id}')">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+document.getElementById('board-add-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('save-board-btn');
+  btn.disabled = true;
+
+  const full_name = document.getElementById('board-name').value;
+  const role_title = document.getElementById('board-role').value;
+  const board_type = document.getElementById('board-type').value;
+  const sort_order = parseInt(document.getElementById('board-sort').value, 10);
+  const photoFile = document.getElementById('board-photo-file').files[0];
+
+  let photo_url = null;
+  if (photoFile) {
+    const fileName = `board_${Date.now()}_${photoFile.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+    const { error: uploadError } = await supabase.storage.from('media').upload(fileName, photoFile);
+    if (!uploadError) {
+      const { data: { publicUrl } } = supabase.storage.from('media').getPublicUrl(fileName);
+      photo_url = publicUrl;
+    }
+  }
+
+  const { error } = await supabase.from('board_members').insert([{
+    full_name,
+    role_title,
+    board_type,
+    sort_order,
+    photo_url
+  }]);
+
+  btn.disabled = false;
+  if (error) showAdminToast('Hata: ' + error.message, true);
+  else {
+    showAdminToast('Kurul üyesi başarıyla eklendi!');
+    e.target.reset();
+    loadAdminBoard();
+  }
+});
+
+window.deleteBoardMember = async (id) => {
+  if (confirm('Bu kurul üyesini silmek istediğinize emin misiniz?')) {
+    const { error } = await supabase.from('board_members').delete().eq('id', id);
+    if (error) showAdminToast('Hata: ' + error.message, true);
+    else {
+      showAdminToast('Üye silindi.');
+      loadAdminBoard();
+    }
+  }
+};
+
+// 3. SPONSOR / DESTEKÇİ İŞLEMLERİ
+async function loadAdminSponsors() {
+  const { data: sponsors, error } = await supabase.from('sponsors_partners').select('*').order('sort_order', { ascending: true });
+  const tbody = document.getElementById('admin-sponsors-tbody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  if (error || !sponsors || sponsors.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Henüz destekçi eklenmemiştir.</td></tr>';
+    return;
+  }
+
+  sponsors.forEach(s => {
+    tbody.innerHTML += `
+      <tr>
+        <td><strong>#${s.sort_order}</strong></td>
+        <td><img src="${s.logo_url}" style="height:30px; max-width:80px; object-fit:contain;"></td>
+        <td><strong>${s.name}</strong></td>
+        <td>
+          <button class="btn btn-outline btn-sm" style="color:var(--danger); border-color:var(--danger);" onclick="deleteSponsor('${s.id}')">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+}
+
+document.getElementById('sponsor-add-form')?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('save-sponsor-btn');
+  btn.disabled = true;
+
+  const name = document.getElementById('spons-name').value;
+  const sort_order = parseInt(document.getElementById('spons-sort').value, 10);
+  const logoFile = document.getElementById('spons-logo-file').files[0];
+
+  if (!logoFile) {
+    showAdminToast('Lütfen logo seçiniz.', true);
+    btn.disabled = false;
+    return;
+  }
+
+  const fileName = `sponsor_${Date.now()}_${logoFile.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+  const { error: uploadError } = await supabase.storage.from('media').upload(fileName, logoFile);
+
+  if (uploadError) {
+    showAdminToast('Logo yüklenemedi: ' + uploadError.message, true);
+    btn.disabled = false;
+    return;
+  }
+
+  const { data: { publicUrl } } = supabase.storage.from('media').getPublicUrl(fileName);
+
+  const { error } = await supabase.from('sponsors_partners').insert([{
+    name,
+    sort_order,
+    logo_url: publicUrl
+  }]);
+
+  btn.disabled = false;
+  if (error) showAdminToast('Hata: ' + error.message, true);
+  else {
+    showAdminToast('Destekçi başarıyla eklendi!');
+    e.target.reset();
+    loadAdminSponsors();
+  }
+});
+
+window.deleteSponsor = async (id) => {
+  if (confirm('Bu sponsoru silmek istediğinize emin misiniz?')) {
+    const { error } = await supabase.from('sponsors_partners').delete().eq('id', id);
+    if (error) showAdminToast('Hata: ' + error.message, true);
+    else {
+      showAdminToast('Sponsor silindi.');
+      loadAdminSponsors();
+    }
+  }
+};
+
+// 4. HABERLER & DUYURULAR
 async function loadAdminNews() {
   const { data: news, error } = await supabase.from('news_announcements').select('*').order('published_at', { ascending: false });
   const tbody = document.getElementById('admin-news-tbody');
@@ -145,7 +298,7 @@ async function loadAdminNews() {
   tbody.innerHTML = '';
 
   if (error || !news || news.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Henüz eklenmiş haber bulunmamaktadır.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Henüz eklenmiş haber bulunmamaktadır.</td></tr>';
     return;
   }
 
@@ -155,7 +308,6 @@ async function loadAdminNews() {
         <td>${new Date(n.published_at).toLocaleDateString('tr-TR')}</td>
         <td><span class="badge ${n.category === 'Haber' ? 'badge-success' : 'badge-warning'}">${n.category}</span></td>
         <td><strong>${n.title}</strong></td>
-        <td><small style="color:var(--text-muted);">${n.summary.substring(0, 50)}...</small></td>
         <td>
           <button class="btn btn-outline btn-sm" style="color:var(--danger); border-color:var(--danger);" onclick="deleteNewsItem('${n.id}')">
             <i class="fa-solid fa-trash"></i>
@@ -170,7 +322,6 @@ document.getElementById('news-add-form')?.addEventListener('submit', async (e) =
   e.preventDefault();
   const btn = document.getElementById('save-news-btn');
   btn.disabled = true;
-  btn.innerText = 'Yayınlanıyor...';
 
   const title = document.getElementById('news-title').value;
   const category = document.getElementById('news-category').value;
@@ -190,44 +341,28 @@ document.getElementById('news-add-form')?.addEventListener('submit', async (e) =
   }
 
   const slug = `${generateSlug(title)}-${Date.now()}`;
-
-  const payload = {
-    title,
-    slug,
-    category,
-    summary,
-    content,
-    cover_image_url,
-    is_published: true,
-    published_at: new Date().toISOString()
-  };
-
-  const { error } = await supabase.from('news_announcements').insert([payload]);
+  const { error } = await supabase.from('news_announcements').insert([{
+    title, slug, category, summary, content, cover_image_url, is_published: true, published_at: new Date().toISOString()
+  }]);
 
   btn.disabled = false;
-  btn.innerText = 'Haberi Yayınla';
-
-  if (error) {
-    showAdminToast('Haber eklenirken hata: ' + error.message, true);
-  } else {
-    showAdminToast('Haber başarıyla yayınlandı!');
+  if (error) showAdminToast('Hata: ' + error.message, true);
+  else {
+    showAdminToast('Haber yayınlandı!');
     e.target.reset();
     loadAdminNews();
   }
 });
 
 window.deleteNewsItem = async (id) => {
-  if (confirm('Bu haberi silmek istediğinize emin misiniz?')) {
-    const { error } = await supabase.from('news_announcements').delete().eq('id', id);
-    if (error) showAdminToast('Silme hatası: ' + error.message, true);
-    else {
-      showAdminToast('Haber silindi.');
-      loadAdminNews();
-    }
+  if (confirm('Bu haberi silmek istiyor musunuz?')) {
+    await supabase.from('news_announcements').delete().eq('id', id);
+    showAdminToast('Haber silindi.');
+    loadAdminNews();
   }
 };
 
-// 3. FAALİYET RAPORLARI
+// 5. RAPORLAR
 async function loadAdminReports() {
   const { data: reports, error } = await supabase.from('annual_reports').select('*').order('year', { ascending: false });
   const tbody = document.getElementById('admin-reports-tbody');
@@ -235,7 +370,7 @@ async function loadAdminReports() {
   tbody.innerHTML = '';
 
   if (error || !reports || reports.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Henüz faaliyet raporu yüklenmemiştir.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Henüz rapor yüklenmemiştir.</td></tr>';
     return;
   }
 
@@ -259,16 +394,14 @@ document.getElementById('report-add-form')?.addEventListener('submit', async (e)
   e.preventDefault();
   const btn = document.getElementById('save-report-btn');
   btn.disabled = true;
-  btn.innerText = 'Yükleniyor...';
 
   const year = parseInt(document.getElementById('report-year').value, 10);
   const title = document.getElementById('report-title').value;
   const file = document.getElementById('report-file').files[0];
 
   if (!file) {
-    showAdminToast('Lütfen bir PDF rapor dosyası seçiniz.', true);
+    showAdminToast('Lütfen PDF rapor seçiniz.', true);
     btn.disabled = false;
-    btn.innerText = 'Raporu Yükle ve Yayınla';
     return;
   }
 
@@ -276,76 +409,54 @@ document.getElementById('report-add-form')?.addEventListener('submit', async (e)
   const { error: uploadError } = await supabase.storage.from('documents').upload(fileName, file);
 
   if (uploadError) {
-    showAdminToast('PDF yükleme hatası: ' + uploadError.message, true);
+    showAdminToast('PDF yüklenemedi: ' + uploadError.message, true);
     btn.disabled = false;
-    btn.innerText = 'Raporu Yükle ve Yayınla';
     return;
   }
 
   const { data: { publicUrl } } = supabase.storage.from('documents').getPublicUrl(fileName);
-
-  const payload = {
-    year,
-    title,
-    file_url: publicUrl
-  };
-
-  const { error } = await supabase.from('annual_reports').insert([payload]);
+  const { error } = await supabase.from('annual_reports').insert([{ year, title, file_url: publicUrl }]);
 
   btn.disabled = false;
-  btn.innerText = 'Raporu Yükle ve Yayınla';
-
-  if (error) {
-    showAdminToast('Rapor kaydedilemedi: ' + error.message, true);
-  } else {
-    showAdminToast('Faaliyet raporu başarıyla yüklendi!');
+  if (error) showAdminToast('Hata: ' + error.message, true);
+  else {
+    showAdminToast('Faaliyet raporu yüklendi!');
     e.target.reset();
     loadAdminReports();
   }
 });
 
 window.deleteReportItem = async (id) => {
-  if (confirm('Bu raporu silmek istediğinize emin misiniz?')) {
-    const { error } = await supabase.from('annual_reports').delete().eq('id', id);
-    if (error) showAdminToast('Silme hatası: ' + error.message, true);
-    else {
-      showAdminToast('Rapor silindi.');
-      loadAdminReports();
-    }
+  if (confirm('Bu raporu silmek istiyor musunuz?')) {
+    await supabase.from('annual_reports').delete().eq('id', id);
+    showAdminToast('Rapor silindi.');
+    loadAdminReports();
   }
 };
 
-// 4. STORAGE & RESMİ TÜZÜK & GALERİ
+// 6. DOSYA & GALERİ
 document.getElementById('upload-charter-btn')?.addEventListener('click', async () => {
   const file = document.getElementById('charter-file-input').files[0];
-  if (!file) return showAdminToast('Lütfen bir PDF dosyası seçiniz.', true);
+  if (!file) return showAdminToast('PDF seçiniz.', true);
 
   const fileName = `charter_${Date.now()}.pdf`;
   const { error } = await supabase.storage.from('documents').upload(fileName, file);
-
-  if (error) {
-    showAdminToast('Yükleme hatası: ' + error.message, true);
-    return;
-  }
+  if (error) return showAdminToast('Hata: ' + error.message, true);
 
   const { data: { publicUrl } } = supabase.storage.from('documents').getPublicUrl(fileName);
   await supabase.from('settings_corporate').update({ charter_pdf_url: publicUrl }).eq('id', 1);
-  showAdminToast('Resmî tüzük başarıyla yüklendi!');
+  showAdminToast('Tüzük yüklendi!');
   loadCorporateSettings();
 });
 
 document.getElementById('upload-gallery-btn')?.addEventListener('click', async () => {
   const title = document.getElementById('gallery-img-title').value;
   const file = document.getElementById('gallery-file-input').files[0];
-  if (!file || !title) return showAdminToast('Lütfen başlık ve görsel dosyası seçiniz.', true);
+  if (!file || !title) return showAdminToast('Başlık ve görsel seçiniz.', true);
 
   const fileName = `gal_${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
   const { error } = await supabase.storage.from('media').upload(fileName, file);
-
-  if (error) {
-    showAdminToast('Medya yüklenemedi: ' + error.message, true);
-    return;
-  }
+  if (error) return showAdminToast('Hata: ' + error.message, true);
 
   const { data: { publicUrl } } = supabase.storage.from('media').getPublicUrl(fileName);
   await supabase.from('media_gallery').insert([{ title, image_url: publicUrl }]);
@@ -376,14 +487,14 @@ async function loadGalleryMedia() {
 }
 
 window.deleteGalleryItem = async (id) => {
-  if (confirm('Bu görseli silmek istediğinize emin misiniz?')) {
+  if (confirm('Görseli silmek istiyor musunuz?')) {
     await supabase.from('media_gallery').delete().eq('id', id);
     showAdminToast('Görsel silindi.');
     loadGalleryMedia();
   }
 };
 
-// 5. ÜYE YÖNETİMİ
+// 7. ÜYE YÖNETİMİ
 async function loadMembers() {
   const { data: members } = await supabase.from('profiles').select('*').order('created_at', { ascending: false });
   cachedMembers = members || [];
@@ -406,10 +517,7 @@ function renderMembersTable() {
   filtered.forEach(m => {
     tbody.innerHTML += `
       <tr>
-        <td>
-          <strong>${m.full_name}</strong>
-          <div style="font-size:0.75rem; color:var(--text-muted);">${m.email}</div>
-        </td>
+        <td><strong>${m.full_name}</strong><br><small style="color:var(--text-muted);">${m.email}</small></td>
         <td>${m.kktc_id_or_passport || '-'}</td>
         <td>${m.city || '-'} / ${m.phone || '-'}</td>
         <td>
@@ -420,7 +528,7 @@ function renderMembersTable() {
             <option value="super_admin" ${m.role === 'super_admin' ? 'selected' : ''}>Super Admin</option>
           </select>
         </td>
-        <td><span class="badge ${m.membership_status === 'active' ? 'badge-success' : m.membership_status === 'pending' ? 'badge-warning' : 'badge-danger'}">${m.membership_status}</span></td>
+        <td><span class="badge ${m.membership_status === 'active' ? 'badge-success' : 'badge-warning'}">${m.membership_status}</span></td>
         <td>
           <button class="btn btn-primary btn-sm" onclick="setMemberStatus('${m.id}', 'active')"><i class="fa-solid fa-check"></i></button>
           <button class="btn btn-outline btn-sm" onclick="setMemberStatus('${m.id}', 'rejected')"><i class="fa-solid fa-xmark"></i></button>
@@ -446,7 +554,7 @@ window.updateMemberRole = async (id, role) => {
 };
 
 document.getElementById('export-members-csv')?.addEventListener('click', () => {
-  if (cachedMembers.length === 0) return showAdminToast('Aktarılacak üye verisi yok.', true);
+  if (cachedMembers.length === 0) return showAdminToast('Aktarılacak veri yok.', true);
   let csv = 'Ad Soyad,E-Posta,Kimlik No,Telefon,Ilce,Meslek,Rol,Durum,KVKK Onay,Kayit Tarihi\n';
   cachedMembers.forEach(m => {
     csv += `"${m.full_name}","${m.email}","${m.kktc_id_or_passport || ''}","${m.phone || ''}","${m.city || ''}","${m.occupation || ''}","${m.role}","${m.membership_status}","${m.kvkk_consent_accepted}","${m.created_at}"\n`;
@@ -457,10 +565,9 @@ document.getElementById('export-members-csv')?.addEventListener('click', () => {
   link.href = URL.createObjectURL(blob);
   link.download = `KKTC_Dernek_Uye_Listesi_${Date.now()}.csv`;
   link.click();
-  showAdminToast('CSV dosyası indirildi.');
 });
 
-// 6. AİDAT & BAĞIŞ
+// 8. AİDAT & BAĞIŞ
 async function loadPayments() {
   const { data: payments } = await supabase.from('dues_payments').select('*').order('created_at', { ascending: false });
   const tbody = document.getElementById('admin-payments-tbody');
@@ -471,10 +578,7 @@ async function loadPayments() {
     tbody.innerHTML += `
       <tr>
         <td>${new Date(p.created_at).toLocaleDateString('tr-TR')}</td>
-        <td>
-          <strong>${p.payer_name}</strong>
-          <div style="font-size:0.75rem; color:var(--text-muted);">${p.payer_email}</div>
-        </td>
+        <td><strong>${p.payer_name}</strong><br><small style="color:var(--text-muted);">${p.payer_email}</small></td>
         <td><span class="badge ${p.type === 'dues' ? 'badge-success' : 'badge-warning'}">${p.type === 'dues' ? 'Aidat' : 'Bağış'}</span></td>
         <td><strong>${p.amount} ${p.currency}</strong></td>
         <td><code>${p.transaction_ref}</code></td>
@@ -490,9 +594,9 @@ async function loadPayments() {
 }
 
 window.deletePayment = async (id) => {
-  if (confirm('Bu ödeme kaydını silmek istediğinize emin misiniz?')) {
+  if (confirm('Ödeme kaydını silmek istiyor musunuz?')) {
     await supabase.from('dues_payments').delete().eq('id', id);
-    showAdminToast('Ödeme kaydı silindi.');
+    showAdminToast('Ödeme silindi.');
     loadPayments();
   }
 };
@@ -507,17 +611,16 @@ document.getElementById('manual-payment-form')?.addEventListener('submit', async
     type: document.getElementById('man-type').value,
     status: 'completed',
     transaction_ref: 'MAN-' + Math.floor(100000 + Math.random() * 900000),
-    notes: 'Yönetici tarafından elden/bankadan manuel işlendi'
+    notes: 'Manuel işlendi'
   };
 
   const { error } = await supabase.from('dues_payments').insert([payload]);
   if (error) showAdminToast('Hata: ' + error.message, true);
   else {
-    showAdminToast('Manuel tahsilat kaydı işlendi!');
+    showAdminToast('Manuel tahsilat işlendi!');
     e.target.reset();
     loadPayments();
   }
 });
 
-// Sayfa hazır olduğunda doğrudan çalıştır
 window.addEventListener('DOMContentLoaded', initAdminDashboard);
