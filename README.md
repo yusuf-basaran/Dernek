@@ -2,6 +2,26 @@ https://yusuf-basaran.github.io/Dernek/index.html
 
 🏛️ KKTC Yardımlaşma ve Dayanışma Derneği Resmî Web Portalı & Yönetim Konsolu
 Kuzey Kıbrıs Türk Cumhuriyeti (KKTC) Fasıl 112 Dernekler ve Birlikler Yasası mevzuatına tam uyumlu; şeffaf sivil toplum yönetimi, çevrim içi bağış, üyelik kayıt akışları ve kapsamlı bir yönetim konsolu sunan modern, mobil uyumlu ve sunucusuz (serverless) web platformudur.
+<!-- project-overview:start -->
+## Projeye genel bakış
+
+![KKTC Dernek proje özellikleri: Haber ve raporlar, Üyelik başvuruları, Yönetim kurulları, Galeri ve destekçiler, Aidat ve bağış kayıtları, Yönetim ve dışa aktarım](docs/images/project-overview.png)
+
+[Görseli büyük aç](docs/images/project-overview.png) · [SVG kaynağı](docs/images/project-overview.svg)
+
+<details>
+<summary>Görseldeki özellikler ve ilgili kaynaklar</summary>
+
+- **[Haber ve raporlar](js/admin.js)** — Haberler, faaliyet raporları ve PDF belgeleri.
+- **[Üyelik başvuruları](uyelik.html)** — Başvuruları inceleme, onaylama ve rol atama.
+- **[Yönetim kurulları](yonetim.html)** — Kurul üyeleri, unvanlar ve sıralı tanıtım.
+- **[Galeri ve destekçiler](index.html)** — Görsel vitrin ve sponsor / destekçi yönetimi.
+- **[Aidat ve bağış kayıtları](js/member.js)** — Üye aidat geçmişi ve manuel finans kayıtları.
+- **[Yönetim ve dışa aktarım](js/admin.js)** — Kurumsal ayarlar ve üye listesini CSV indirme.
+
+</details>
+<!-- project-overview:end -->
+
 ---
 📌 Özellikler ve Modüller
 1. Kullanıcı Arayüzü (Frontend)
